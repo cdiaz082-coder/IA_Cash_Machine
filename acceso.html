@@ -131,12 +131,10 @@ ESTRUCTURA DE SALIDA:
 ### 🧲 Fase 2: Estrategia de Adquisición
 ### ⚙️ Fase 3: Piloto Automático`;
 
-            // Configuración con lista de respaldo en caso de falta de créditos en Nemotron
             const payload = {
                 models: [
                     "nvidia/nemotron-4-340b-instruct",
                     "meta-llama/llama-3.3-70b-instruct:free",
-                    "google/gemini-2.0-flash-lite-001:free",
                     "openrouter/free"
                 ],
                 messages: [{ role: "system", content: promptSystem }]
