@@ -1,59 +1,147 @@
 ﻿<!DOCTYPE html>
-<html lang="es" class="scroll-smooth">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal Privado | Cash Machine 2.0</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Cash Machine 2.0 | Portal VIP</title>
     <style>
-        body { background-color: #09090b; color: #f4f4f5; font-family: system-ui, -apple-system, sans-serif; }
-        .neon-glow { box-shadow: 0 0 30px rgba(16, 185, 129, 0.3); }
+        :root {
+            --bg: #030712;
+            --card: #0f172a;
+            --accent: #00ff88;
+            --text: #f8fafc;
+            --muted: #94a3b8;
+            --border: #1e293b;
+        }
+        * { box-sizing: border-box; }
+        body { font-family: system-ui, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 40px auto; background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 30px; }
+        h1 { color: var(--accent); margin-top: 0; }
+        label { display: block; margin-top: 15px; font-weight: bold; color: var(--muted); }
+        input, select, textarea { width: 100%; padding: 12px; margin-top: 5px; background: #090d16; border: 1px solid var(--border); color: #fff; border-radius: 8px; font-size: 1rem; }
+        button { width: 100%; background: var(--accent); color: #030712; font-weight: 900; padding: 15px; border: none; border-radius: 8px; margin-top: 20px; cursor: pointer; font-size: 1.1rem; }
+        button:disabled { opacity: 0.5; cursor: not-allowed; }
+        #output { margin-top: 30px; padding: 20px; background: #090d16; border: 1px solid var(--border); border-radius: 8px; white-space: pre-wrap; line-height: 1.6; }
+        .status { font-size: 0.9rem; color: #38bdf8; margin-top: 10px; text-align: center; }
     </style>
 </head>
-<body class="antialiased min-h-screen flex flex-col justify-between">
+<body>
 
-    <!-- TOP NAV -->
-    <nav class="max-w-4xl w-full mx-auto px-6 py-6 flex justify-between items-center border-b border-zinc-900">
-        <span class="text-white font-black tracking-widest text-sm uppercase">Cash Machine 2.0 <span class="text-emerald-500">|</span> Portal VIP</span>
-        <span class="text-xs text-emerald-400 bg-emerald-950/60 px-3 py-1 rounded-full border border-emerald-800">
-            Acceso Autorizado
-        </span>
-    </nav>
+    <div class="container">
+        <h1>🚀 Motor Estratégico Cash Machine 2.0</h1>
+        <p style="color: var(--muted);">Genera tu estrategia de monetización automatizada a medida.</p>
 
-    <!-- MAIN DASHBOARD CONTENT -->
-    <main class="max-w-4xl w-full mx-auto px-6 py-12">
-        <div class="bg-zinc-900/40 border border-zinc-800 p-8 rounded-2xl mb-8">
-            <h1 class="text-3xl font-black text-white mb-2">Bienvenido a la Suite Interactiva</h1>
-            <p class="text-zinc-400 text-sm">Aquí tienes el control central de tus herramientas de automatización e inteligencia artificial.</p>
-        </div>
+        <label>Clave de Acceso VIP:</label>
+        <input type="password" id="pass" placeholder="Ingresa tu clave de acceso">
 
-        <div class="grid md:grid-cols-2 gap-6">
-            <!-- Herramienta 1 -->
-            <div class="bg-zinc-900/60 border border-zinc-800 p-6 rounded-xl hover:border-emerald-500/50 transition-colors">
-                <span class="text-emerald-500 text-xl font-bold">🧠 01</span>
-                <h2 class="text-white font-bold text-lg mt-2 mb-1">Generador de Prompts Maestros</h2>
-                <p class="text-zinc-400 text-xs mb-4">Crea estructuras de comandos optimizadas para tus redes sociales.</p>
-                <button class="bg-emerald-500 hover:bg-emerald-400 text-black text-xs font-black px-4 py-2 rounded-lg transition-colors">
-                    Abrir Herramienta
-                </button>
-            </div>
+        <label>Nicho o Mercado:</label>
+        <input type="text" id="nicho" placeholder="Ej: Automatizaciones n8n para agencias">
 
-            <!-- Herramienta 2 -->
-            <div class="bg-zinc-900/60 border border-zinc-800 p-6 rounded-xl hover:border-emerald-500/50 transition-colors">
-                <span class="text-emerald-500 text-xl font-bold">⚡ 02</span>
-                <h2 class="text-white font-bold text-lg mt-2 mb-1">Fábrica de Copys de Venta</h2>
-                <p class="text-zinc-400 text-xs mb-4">Estructuras de texto persuasivas listas para usar en tus campañas.</p>
-                <button class="bg-emerald-500 hover:bg-emerald-400 text-black text-xs font-black px-4 py-2 rounded-lg transition-colors">
-                    Abrir Herramienta
-                </button>
-            </div>
-        </div>
-    </main>
+        <label>Recursos Disponibles:</label>
+        <input type="text" id="recursos" placeholder="Ej: $0 USD + 10h/semana + Laptop">
 
-    <!-- FOOTER -->
-    <footer class="max-w-4xl w-full mx-auto px-6 py-6 border-t border-zinc-900 text-center text-xs text-zinc-600">
-        <p>© 2026 Cash Machine 2.0. Uso exclusivo para miembros activos.</p>
-    </footer>
+        <label>Estilo / Tono de Respuesta:</label>
+        <select id="tono">
+            <option value="Hacker pragmático (directo al grano)">Hacker pragmático (Directo al grano)</option>
+            <option value="Navaja suiza agresivo">Navaja suiza agresivo (Enfocado en ventas)</option>
+            <option value="Militar minimalista">Militar minimalista (Pasos estrictos)</option>
+            <option value="Tiburón de ventas directas">Tiburón de ventas (Alta persuasión)</option>
+        </select>
+
+        <button id="btn-generar" onclick="generarEstrategia()">Generar Estrategia de Ingresos</button>
+        <div id="status" class="status"></div>
+
+        <div id="output" style="display:none;"></div>
+    </div>
+
+    <script>
+        const API_KEY = "TU_OPENROUTER_API_KEY_AQUI"; // Reemplaza con tu llave de OpenRouter
+        const CLAVE_CORRECTA = "CASHVIP2026"; // Clave para tus compradores
+
+        async function llamarAPIConReintentos(payload, intentos = 3) {
+            for (let i = 0; i < intentos; i++) {
+                try {
+                    const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+                        method: "POST",
+                        headers: {
+                            "Authorization": `Bearer ${API_KEY}`,
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (res.status === 429) {
+                        document.getElementById("status").innerText = `Motor ocupado. Reintentando en 3 segundos... (Intento ${i + 1}/${intentos})`;
+                        await new Promise(r => setTimeout(r, 3000));
+                        continue;
+                    }
+
+                    if (!res.ok) throw new Error(`Error API: ${res.status}`);
+                    return await res.json();
+                } catch (err) {
+                    if (i === intentos - 1) throw err;
+                }
+            }
+        }
+
+        async function generarEstrategia() {
+            const pass = document.getElementById("pass").value;
+            const nicho = document.getElementById("nicho").value;
+            const recursos = document.getElementById("recursos").value;
+            const tono = document.getElementById("tono").value;
+            const status = document.getElementById("status");
+            const output = document.getElementById("output");
+            const btn = document.getElementById("btn-generar");
+
+            if (pass !== CLAVE_CORRECTA) {
+                alert("Clave VIP incorrecta.");
+                return;
+            }
+
+            if (!nicho || !recursos) {
+                alert("Por favor completa el nicho y tus recursos.");
+                return;
+            }
+
+            btn.disabled = true;
+            status.innerText = "Conectando con Nemotron... Procesando estrategia...";
+            output.style.display = "none";
+
+            const promptSystem = `Eres el motor estratégico principal de Cash Machine 2.0. Tu único objetivo es diseñar un plan de monetización y automatización altamente ejecutable para el usuario.
+CONTEXTO:
+- Nicho: ${nicho}
+- Recursos: ${recursos}
+- Tono: ${tono}
+
+REGLAS DE ORO:
+1. Filtro de Dominio: Si el nicho NO está relacionado con negocios, automatización o ingresos, responde únicamente: "Solo puedo diseñar estrategias de negocios para Cash Machine 2.0."
+2. Mimetización de Tono: Adapta tu personalidad 100% al valor indicado en Tono.
+3. Cero Paja: Sin saludos ni despedidas. Máximo 150 palabras por fase.
+4. Formato Directo: Markdown limpio sin bloques de código.
+
+ESTRUCTURA DE SALIDA:
+### 🛠️ Fase 1: Despliegue Inmediato
+### 🧲 Fase 2: Estrategia de Adquisición
+### ⚙️ Fase 3: Piloto Automático`;
+
+            const payload = {
+                model: "nvidia/nemotron-4-340b-instruct",
+                messages: [{ role: "system", content: promptSystem }]
+            };
+
+            try {
+                const data = await llamarAPIConReintentos(payload);
+                const respuesta = data.choices[0].message.content;
+                output.innerText = respuesta;
+                output.style.display = "block";
+                status.innerText = "¡Estrategia generada con éxito!";
+            } catch (err) {
+                status.innerText = "Error de conexión. Por favor reintenta en un momento.";
+            } finally {
+                btn.disabled = false;
+            }
+        }
+    </script>
 
 </body>
 </html>
