@@ -3,130 +3,190 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cash Machine 2.0 | IA & Automatización</title>
+    <title>Cash Machine 2.0 | IA & Automatización Exponencial</title>
     <style>
         :root {
-            --bg-color: #0f172a;
-            --card-bg: #1e293b;
-            --accent: #10b981;
-            --accent-hover: #059669;
-            --text-main: #ffffff;
-            --text-muted: #94a3b8;
+            --bg: #030712;
+            --card: #0f172a;
+            --accent: #00ff88;
+            --accent-hover: #00cc6a;
+            --text: #f8fafc;
+            --muted: #94a3b8;
+            --border: #1e293b;
         }
+        * { box-sizing: border-box; }
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-main);
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
             margin: 0;
             padding: 0;
-            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        .hero-badge {
+            display: inline-block;
+            background: rgba(0, 255, 136, 0.1);
+            color: var(--accent);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
         }
         header {
             text-align: center;
-            padding: 80px 20px 40px 20px;
-            max-width: 800px;
+            padding: 100px 20px 60px 20px;
+            max-width: 900px;
             margin: 0 auto;
         }
         h1 {
-            font-size: 3rem;
-            margin-bottom: 20px;
-            background: linear-gradient(90deg, #38bdf8, #10b981);
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            line-height: 1.1;
+            margin-bottom: 24px;
+            font-weight: 900;
+            letter-spacing: -1px;
+        }
+        h1 span {
+            background: linear-gradient(135deg, #00ff88, #38bdf8);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
         .subtitle {
-            font-size: 1.25rem;
-            color: var(--text-muted);
-            margin-bottom: 30px;
+            font-size: 1.2rem;
+            color: var(--muted);
+            max-width: 700px;
+            margin: 0 auto 40px auto;
+            line-height: 1.6;
         }
-        .container {
-            max-width: 1000px;
+        .main-container {
+            max-width: 1100px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 0 20px 80px 20px;
         }
-        .features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-            margin: 40px 0;
-        }
-        .card {
-            background: var(--card-bg);
-            padding: 30px;
-            border-radius: 12px;
-            border: 1px solid #334155;
-        }
-        .card h3 {
-            color: #38bdf8;
-            margin-top: 0;
-        }
-        .pricing-box {
-            background: var(--card-bg);
+        .pricing-card {
+            background: linear-gradient(145deg, #0f172a, #090d16);
+            border: 2px solid rgba(0, 255, 136, 0.4);
+            border-radius: 24px;
+            padding: 50px 30px;
             text-align: center;
-            padding: 40px;
-            border-radius: 16px;
-            border: 2px solid var(--accent);
-            max-width: 500px;
-            margin: 40px auto;
+            max-width: 600px;
+            margin: 0 auto;
+            box-shadow: 0 0 50px rgba(0, 255, 136, 0.15);
+            position: relative;
         }
-        .price {
-            font-size: 2.5rem;
-            font-weight: bold;
-            color: var(--accent);
-            margin: 15px 0;
-        }
-        .btn-comprar {
-            display: inline-block;
+        .pricing-card::before {
+            content: "ACCESO INMEDIATO";
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
             background: var(--accent);
-            color: white;
-            padding: 18px 40px;
+            color: #030712;
+            font-size: 0.75rem;
+            font-weight: 900;
+            padding: 4px 14px;
+            border-radius: 20px;
+            letter-spacing: 1px;
+        }
+        .price-old {
+            text-decoration: line-through;
+            color: var(--muted);
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+        .price-current {
+            font-size: 3.5rem;
+            font-weight: 900;
+            color: var(--accent);
+            margin: 10px 0 20px 0;
+        }
+        .btn-flow {
+            display: block;
+            width: 100%;
+            background: var(--accent);
+            color: #030712;
             text-decoration: none;
             font-size: 1.3rem;
-            border-radius: 8px;
-            font-weight: bold;
-            margin-top: 20px;
-            transition: background 0.3s;
-            box-shadow: 0 4px 14px rgba(16, 185, 129, 0.4);
+            font-weight: 900;
+            padding: 20px;
+            border-radius: 12px;
+            transition: all 0.2s ease;
+            box-shadow: 0 10px 25px rgba(0, 255, 136, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
-        .btn-comprar:hover {
+        .btn-flow:hover {
             background: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px rgba(0, 255, 136, 0.4);
+        }
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 60px;
+        }
+        .feature-box {
+            background: var(--card);
+            border: 1px solid var(--border);
+            padding: 30px;
+            border-radius: 16px;
+        }
+        .feature-box h3 {
+            color: #38bdf8;
+            margin-top: 0;
+            font-size: 1.25rem;
+        }
+        .feature-box p {
+            color: var(--muted);
+            margin-bottom: 0;
+            font-size: 0.95rem;
         }
         footer {
             text-align: center;
             padding: 40px;
-            color: var(--text-muted);
-            font-size: 0.9rem;
+            color: var(--muted);
+            font-size: 0.85rem;
+            border-top: 1px solid var(--border);
+            margin-top: 60px;
         }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>Cash Machine 2.0</h1>
-        <p class="subtitle">Desata el poder de la Inteligencia Artificial y automatiza flujos de ingresos reales paso a paso.</p>
+        <div class="hero-badge">⚡ Sistema de Alta Conversión</div>
+        <h1>Monetiza con IA en Piloto Automático: <span>Cash Machine 2.0</span></h1>
+        <p class="subtitle">Deja atrás los métodos tradicionales. Implementa una arquitectura validada impulsada por Inteligencia Artificial para generar flujos constantes sin fricción.</p>
     </header>
 
-    <div class="container">
-        <div class="features">
-            <div class="card">
-                <h3>🚀 Automatización Real</h3>
-                <p>Configura sistemas que trabajan por ti en piloto automático utilizando las tecnologías de IA más avanzadas del mercado.</p>
-            </div>
-            <div class="card">
-                <h3>🧠 Integración con OpenRouter</h3>
-                <p>Aprende a conectar modelos de lenguaje avanzados para potenciar tus proyectos y los de tus clientes.</p>
-            </div>
-            <div class="card">
-                <h3>⚡ Acceso Inmediato</h3>
-                <p>Una vez completado tu pago, obtienes acceso directo al panel exclusivo con todo el contenido y herramientas.</p>
-            </div>
+    <div class="main-container">
+        <div class="pricing-card">
+            <div class="price-old">$49,990 CLP</div>
+            <div class="price-current">$9,990 CLP</div>
+            <p style="color: var(--muted); margin-bottom: 30px;">Acceso vitalicio al sistema completo + actualizaciones de OpenRouter.</p>
+            
+            <a href="https://www.flow.cl/btn.php?token=hf76b9e05d9000324c82c543bfe6255fec346f12" target="_blank" class="btn-flow">Obtener Acceso Inmediato 🚀</a>
+            
+            <p style="font-size: 0.8rem; color: var(--muted); margin-top: 20px;">🔒 Pago 100% seguro procesado por Flow (Tarjetas / Redcompra)</p>
         </div>
 
-        <div class="pricing-box">
-            <h2>Acceso Completo VIP</h2>
-            <p>Todo el conocimiento, plantillas y sistemas listos para implementar.</p>
-            <div class="price">$9,990 CLP</div>
-            <a href="https://www.flow.cl/btn.php?token=hf76b9e05d9000324c82c543bfe6255fec346f12" target="_blank" class="btn-comprar">Comprar Acceso VIP</a>
+        <div class="features-grid">
+            <div class="feature-box">
+                <h3>🎯 Psicología de Conversión</h3>
+                <p>Estructura persuasiva basada en retención, autoridad y eliminación total de objeciones para maximizar tus ventas.</p>
+            </div>
+            <div class="feature-box">
+                <h3>🧠 Motor OpenRouter Avanzado</h3>
+                <p>Conecta los modelos de lenguaje más potentes del mundo directamente a tu plataforma con respuestas en tiempo real.</p>
+            </div>
+            <div class="feature-box">
+                <h3>⚙️ Despliegue Automatizado</h3>
+                <p>Todo optimizado para correr de forma ultra ligera y rápida en la nube con sincronización instantánea vía Git.</p>
+            </div>
         </div>
     </div>
 
