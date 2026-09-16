@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cash Machine 2.0 | Portal VIP</title>
+    <!-- Carga de Marked.js para formatear HTML limpio -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
         :root {
             --bg: #030712;
@@ -15,13 +17,16 @@
         }
         * { box-sizing: border-box; }
         body { font-family: system-ui, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 20px; }
-        .container { max-width: 800px; margin: 40px auto; background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 30px; }
+        .container { max-width: 850px; margin: 40px auto; background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 30px; }
         h1 { color: var(--accent); margin-top: 0; }
         label { display: block; margin-top: 15px; font-weight: bold; color: var(--muted); }
         input, select, textarea { width: 100%; padding: 12px; margin-top: 5px; background: #090d16; border: 1px solid var(--border); color: #fff; border-radius: 8px; font-size: 1rem; }
         button { width: 100%; background: var(--accent); color: #030712; font-weight: 900; padding: 15px; border: none; border-radius: 8px; margin-top: 20px; cursor: pointer; font-size: 1.1rem; }
         button:disabled { opacity: 0.5; cursor: not-allowed; }
-        #output { margin-top: 30px; padding: 20px; background: #090d16; border: 1px solid var(--border); border-radius: 8px; white-space: pre-wrap; line-height: 1.6; }
+        #output { margin-top: 30px; padding: 25px; background: #090d16; border: 1px solid var(--border); border-radius: 12px; line-height: 1.7; color: #e2e8f0; }
+        #output h3 { color: var(--accent); border-bottom: 1px solid var(--border); padding-bottom: 8px; margin-top: 25px; }
+        #output pre { background: #030712; padding: 15px; border-radius: 8px; border: 1px solid var(--border); overflow-x: auto; color: #38bdf8; }
+        #output code { font-family: monospace; }
         .status { font-size: 0.9rem; color: #38bdf8; margin-top: 10px; text-align: center; }
     </style>
 </head>
@@ -29,7 +34,7 @@
 
     <div class="container">
         <h1>🚀 Motor Estratégico Cash Machine 2.0</h1>
-        <p style="color: var(--muted);">Genera tu estrategia de monetización automatizada a medida.</p>
+        <p style="color: var(--muted);">Genera tu estrategia personalizada y obtén tu prompt maestro de creación web.</p>
 
         <label>Clave de Acceso VIP:</label>
         <input type="password" id="pass" placeholder="Ingresa tu clave de acceso">
@@ -48,7 +53,7 @@
             <option value="Tiburón de ventas directas">Tiburón de ventas (Alta persuasión)</option>
         </select>
 
-        <button id="btn-generar" onclick="generarEstrategia()">Generar Estrategia de Ingresos</button>
+        <button id="btn-generar" onclick="generarEstrategia()">Generar Estrategia + Prompt Web Maestro</button>
         <div id="status" class="status"></div>
 
         <div id="output" style="display:none;"></div>
@@ -111,25 +116,47 @@
             }
 
             btn.disabled = true;
-            status.innerText = "Conectando con la IA... Procesando estrategia...";
+            status.innerText = "Conectando con la IA... Creando tu plan y Prompt Web...";
             output.style.display = "none";
 
-            const promptSystem = `Eres el motor estratégico principal de Cash Machine 2.0. Tu único objetivo es diseñar un plan de monetización y automatización altamente ejecutable para el usuario.
-CONTEXTO:
+            const promptSystem = `Eres el motor estratégico principal de Cash Machine 2.0. Tu objetivo es diseñar un plan de monetización ejecutable y entregar un Prompt Web listo para copiar y pegar.
+
+CONTEXTO DEL USUARIO:
 - Nicho: ${nicho}
 - Recursos: ${recursos}
 - Tono: ${tono}
 
 REGLAS DE ORO:
-1. Filtro de Dominio: Si el nicho NO está relacionado con negocios, automatización o ingresos, responde únicamente: "Solo puedo diseñar estrategias de negocios para Cash Machine 2.0."
-2. Mimetización de Tono: Adapta tu personalidad 100% al valor indicado en Tono.
-3. Cero Paja: Sin saludos ni despedidas. Máximo 150 palabras por fase.
-4. Formato Directo: Markdown limpio sin bloques de código.
+1. Filtro de Dominio: Si el nicho NO está relacionado con negocios o ingresos, responde únicamente: "Solo puedo diseñar estrategias de negocios para Cash Machine 2.0."
+2. Mimetización de Tono: Adapta tu personalidad al estilo indicado en Tono.
+3. Cero Paja: Directo al grano.
+4. Sección Cero-Código: Incluye instrucciones paso a paso para personas sin conocimientos técnicos sobre qué hacer con el prompt generado (ej: usar ChatGPT, Claude o DeepSeek y llevar el resultado a herramientas gratuitas como Carrd.co, Systeme.io o Framer).
 
-ESTRUCTURA DE SALIDA:
+ESTRUCTURA DE SALIDA OBLIGATORIA:
 ### 🛠️ Fase 1: Despliegue Inmediato
+[Pasos concretos]
+
 ### 🧲 Fase 2: Estrategia de Adquisición
-### ⚙️ Fase 3: Piloto Automático`;
+[Pasos de captación]
+
+### ⚙️ Fase 3: Piloto Automático
+[Automatización]
+
+### 🌐 Guiado Cero-Técnico: Cómo Crear tu Sitio Web sin Saber Programar
+[Explicación concisa en 3 pasos simples sobre dónde pegar el prompt y qué plataforma gratuita usar].
+
+### 📋 Bonus: Prompt Maestro para Construir tu Plataforma Web
+(Copia todo el bloque de código a continuación y pégalo en ChatGPT, Claude o DeepSeek para que diseñe tu landing page):
+
+\`\`\`text
+Actúa como un Diseñador Web y Copywriter Senior experto en conversión.
+Necesito que diseñes la estructura completa y el texto de ventas para una Landing Page enfocada en el nicho: "${nicho}".
+Genera:
+1. Titular llamativo con propuesta de valor única.
+2. Estructura de secciones (Hero, Problema, Solución, Beneficios, Prueba Social, Llamado a la Acción).
+3. Código HTML/CSS básico o guía lista para pegar en Carrd / Systeme.io.
+4. Instrucciones paso a paso como si yo fuera un principiante total de 10 años.
+\`\`\``;
 
             const payload = {
                 models: [
@@ -143,9 +170,9 @@ ESTRUCTURA DE SALIDA:
             try {
                 const data = await llamarAPIConReintentos(payload);
                 const respuesta = data.choices[0].message.content;
-                output.innerText = respuesta;
+                output.innerHTML = marked.parse(respuesta);
                 output.style.display = "block";
-                status.innerText = "¡Estrategia generada con éxito!";
+                status.innerText = "¡Estrategia y Prompt Web generados con éxito!";
             } catch (err) {
                 status.innerText = `❌ Error: ${err.message}`;
             } finally {
