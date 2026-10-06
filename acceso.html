@@ -1,185 +1,1872 @@
 ﻿<!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cash Machine 2.0 | Portal VIP</title>
-    <!-- Carga de Marked.js para formatear HTML limpio -->
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <style>
-        :root {
-            --bg: #030712;
-            --card: #0f172a;
-            --accent: #00ff88;
-            --text: #f8fafc;
-            --muted: #94a3b8;
-            --border: #1e293b;
-        }
-        * { box-sizing: border-box; }
-        body { font-family: system-ui, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 20px; }
-        .container { max-width: 850px; margin: 40px auto; background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 30px; }
-        h1 { color: var(--accent); margin-top: 0; }
-        label { display: block; margin-top: 15px; font-weight: bold; color: var(--muted); }
-        input, select, textarea { width: 100%; padding: 12px; margin-top: 5px; background: #090d16; border: 1px solid var(--border); color: #fff; border-radius: 8px; font-size: 1rem; }
-        button { width: 100%; background: var(--accent); color: #030712; font-weight: 900; padding: 15px; border: none; border-radius: 8px; margin-top: 20px; cursor: pointer; font-size: 1.1rem; }
-        button:disabled { opacity: 0.5; cursor: not-allowed; }
-        #output { margin-top: 30px; padding: 25px; background: #090d16; border: 1px solid var(--border); border-radius: 12px; line-height: 1.7; color: #e2e8f0; }
-        #output h3 { color: var(--accent); border-bottom: 1px solid var(--border); padding-bottom: 8px; margin-top: 25px; }
-        #output pre { background: #030712; padding: 15px; border-radius: 8px; border: 1px solid var(--border); overflow-x: auto; color: #38bdf8; }
-        #output code { font-family: monospace; }
-        .status { font-size: 0.9rem; color: #38bdf8; margin-top: 10px; text-align: center; }
-    </style>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Cash Machine 2.0 | Diagnóstico</title>
+
+<style>
+
+:root{
+    --bg:#090909;
+    --bg2:#11100e;
+    --card:#151310;
+    --card2:#1b1814;
+    --orange:#E85D04;
+    --orange2:#F47721;
+    --cream:#F4EFE8;
+    --muted:#A9A39B;
+    --line:rgba(232,93,4,.20);
+    --danger:#d9534f;
+}
+
+*{
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    margin:0;
+    min-height:100vh;
+    font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    color:var(--cream);
+    background:
+        radial-gradient(circle at 50% -10%,rgba(232,93,4,.13),transparent 35%),
+        var(--bg);
+    overflow-x:hidden;
+}
+
+body::before,
+body::after{
+    content:"";
+    position:fixed;
+    inset:-35%;
+    pointer-events:none;
+    z-index:-1;
+}
+
+body::before{
+    background:
+        repeating-linear-gradient(
+            165deg,
+            transparent 0,
+            transparent 70px,
+            rgba(255,255,255,.018) 72px,
+            transparent 75px,
+            transparent 145px
+        );
+    animation:windOne 24s linear infinite;
+}
+
+body::after{
+    background:
+        repeating-linear-gradient(
+            175deg,
+            transparent 0,
+            transparent 110px,
+            rgba(232,93,4,.035) 112px,
+            transparent 116px,
+            transparent 220px
+        );
+    animation:windTwo 32s linear infinite;
+}
+
+@keyframes windOne{
+    from{transform:translate3d(-5%,0,0) rotate(-1deg);}
+    to{transform:translate3d(5%,3%,0) rotate(-1deg);}
+}
+
+@keyframes windTwo{
+    from{transform:translate3d(5%,0,0);}
+    to{transform:translate3d(-5%,-3%,0);}
+}
+
+.container{
+    width:min(900px,92%);
+    margin:auto;
+}
+
+header{
+    padding:35px 0 20px;
+}
+
+.brand{
+    font-size:13px;
+    font-weight:800;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    color:var(--orange);
+}
+
+h1{
+    font-size:clamp(30px,5vw,48px);
+    line-height:1.05;
+    letter-spacing:-1.5px;
+    margin:14px 0 12px;
+}
+
+.subtitle{
+    color:var(--muted);
+    line-height:1.65;
+    max-width:700px;
+}
+
+.progress-wrap{
+    margin:30px 0 35px;
+}
+
+.progress-top{
+    display:flex;
+    justify-content:space-between;
+    color:#817a72;
+    font-size:12px;
+    margin-bottom:9px;
+}
+
+.progress{
+    width:100%;
+    height:5px;
+    background:#211f1b;
+    border-radius:999px;
+    overflow:hidden;
+}
+
+.progress-bar{
+    height:100%;
+    width:12.5%;
+    background:var(--orange);
+    transition:.3s ease;
+}
+
+.card{
+    background:rgba(21,19,16,.92);
+    border:1px solid var(--line);
+    border-radius:20px;
+    padding:30px;
+    box-shadow:0 20px 70px rgba(0,0,0,.18);
+}
+
+.step{
+    display:none;
+}
+
+.step.active{
+    display:block;
+    animation:fadeIn .3s ease;
+}
+
+@keyframes fadeIn{
+    from{
+        opacity:0;
+        transform:translateY(8px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+.step-kicker{
+    color:var(--orange);
+    font-size:12px;
+    font-weight:800;
+    text-transform:uppercase;
+    letter-spacing:1.5px;
+    margin-bottom:10px;
+}
+
+.step h2{
+    margin:0 0 10px;
+    font-size:27px;
+}
+
+.step-description{
+    color:#99928a;
+    line-height:1.6;
+    margin-bottom:25px;
+}
+
+label{
+    display:block;
+    margin:18px 0 8px;
+    color:#ddd6ce;
+    font-weight:650;
+    font-size:14px;
+}
+
+input,
+textarea,
+select{
+    width:100%;
+    border:1px solid #2c2823;
+    background:#0f0e0d;
+    color:#eee8e1;
+    border-radius:11px;
+    padding:13px 14px;
+    font:inherit;
+    outline:none;
+    transition:.2s ease;
+}
+
+input:focus,
+textarea:focus,
+select:focus{
+    border-color:var(--orange);
+    box-shadow:0 0 0 3px rgba(232,93,4,.08);
+}
+
+textarea{
+    min-height:125px;
+    resize:vertical;
+}
+
+.small-text{
+    color:#77716a;
+    font-size:12px;
+    line-height:1.5;
+    margin-top:7px;
+}
+
+.options{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:10px;
+}
+
+.option{
+    display:flex;
+    align-items:flex-start;
+    gap:10px;
+    padding:14px;
+    border:1px solid #29251f;
+    border-radius:12px;
+    background:#11100e;
+    cursor:pointer;
+    transition:.2s ease;
+}
+
+.option:hover{
+    border-color:rgba(232,93,4,.35);
+}
+
+.option input{
+    width:auto;
+    margin-top:3px;
+    accent-color:var(--orange);
+}
+
+.option span{
+    color:#bbb4ac;
+    font-size:14px;
+    line-height:1.4;
+}
+
+.question-block{
+    margin-top:28px;
+    padding-top:24px;
+    border-top:1px solid rgba(255,255,255,.06);
+}
+
+.question-block h3{
+    margin:0 0 7px;
+    font-size:19px;
+}
+
+.question-block p{
+    margin:0 0 15px;
+    color:#8f8880;
+    line-height:1.55;
+}
+
+.highlight-question{
+    border-left:3px solid var(--orange);
+    padding-left:18px;
+}
+
+.nav{
+    display:flex;
+    justify-content:space-between;
+    gap:12px;
+    margin-top:24px;
+}
+
+button{
+    border:0;
+    border-radius:11px;
+    padding:13px 20px;
+    font:inherit;
+    font-weight:800;
+    cursor:pointer;
+    transition:.2s ease;
+}
+
+.btn-primary{
+    background:var(--orange);
+    color:white;
+}
+
+.btn-primary:hover{
+    background:var(--orange2);
+    transform:translateY(-1px);
+}
+
+.btn-secondary{
+    background:#211e1a;
+    color:#bcb5ad;
+}
+
+.btn-secondary:hover{
+    background:#29251f;
+}
+
+.btn-primary:disabled{
+    opacity:.55;
+    cursor:not-allowed;
+    transform:none;
+}
+
+.summary{
+    display:none;
+}
+
+.summary.active{
+    display:block;
+}
+
+.summary-box{
+    background:#0e0d0c;
+    border:1px solid #29251f;
+    border-radius:14px;
+    padding:20px;
+    line-height:1.65;
+    color:#aaa39b;
+}
+
+.status{
+    margin-top:18px;
+    color:var(--orange);
+    font-size:13px;
+    min-height:20px;
+}
+
+.result{
+    margin-top:30px;
+    display:none;
+}
+
+.result.active{
+    display:block;
+}
+
+.result-content{
+    background:#0e0d0c;
+    border:1px solid #29251f;
+    border-radius:15px;
+    padding:25px;
+    line-height:1.7;
+    white-space:pre-wrap;
+    overflow-wrap:anywhere;
+}
+
+.lock{
+    max-width:500px;
+    margin:80px auto;
+}
+
+.lock h1{
+    font-size:32px;
+}
+
+footer{
+    text-align:center;
+    color:#5e5953;
+    padding:45px 0;
+    font-size:12px;
+}
+
+@media(max-width:700px){
+    .options{
+        grid-template-columns:1fr;
+    }
+
+    .card{
+        padding:22px;
+    }
+
+    .nav{
+        flex-direction:column-reverse;
+    }
+
+    .nav button{
+        width:100%;
+    }
+}
+
+@media(prefers-reduced-motion:reduce){
+    *,
+    *::before,
+    *::after{
+        animation:none !important;
+    }
+}
+
+</style>
 </head>
+
 <body>
 
-    <div class="container">
-        <h1>🚀 Motor Estratégico Cash Machine 2.0</h1>
-        <p style="color: var(--muted);">Genera tu estrategia personalizada y obtén tu prompt maestro de creación web.</p>
+<div class="container">
 
-        <label>Clave de Acceso VIP:</label>
-        <input type="password" id="pass" placeholder="Ingresa tu clave de acceso">
+<header>
 
-        <label>Nicho o Mercado:</label>
-        <input type="text" id="nicho" placeholder="Ej: Automatizaciones n8n para agencias">
+<div class="brand">Cash Machine 2.0</div>
 
-        <label>Recursos Disponibles:</label>
-        <input type="text" id="recursos" placeholder="Ej: $0 USD + 10h/semana + Laptop">
+<h1>Primero entendemos tu realidad.</h1>
 
-        <label>Estilo / Tono de Respuesta:</label>
-        <select id="tono">
-            <option value="Hacker pragmático (directo al grano)">Hacker pragmático (Directo al grano)</option>
-            <option value="Navaja suiza agresivo">Navaja suiza agresivo (Enfocado en ventas)</option>
-            <option value="Militar minimalista">Militar minimalista (Pasos estrictos)</option>
-            <option value="Tiburón de ventas directas">Tiburón de ventas (Alta persuasión)</option>
-        </select>
+<div class="subtitle">
+No vamos a llenar esto de ideas genéricas.
+Vamos a entender qué quieres conseguir, qué tienes,
+qué puedes arriesgar y qué estás dispuesto a hacer.
+</div>
 
-        <button id="btn-generar" onclick="generarEstrategia()">Generar Estrategia + Prompt Web Maestro</button>
-        <div id="status" class="status"></div>
+</header>
 
-        <div id="output" style="display:none;"></div>
-    </div>
+<div id="login" class="lock card">
 
-    <script>
-        const API_KEY = atob("c2stb3ItdjEtM2RjY2U3OGE0YmZlNTg5NGEwZjBiNjYxMDBlMTJkYzk1YWJmMzA3MmRjYTJhNWI0ZGMyZmY2ODc1NmY4ZWQ2Ng==");
-        const CLAVE_CORRECTA = "CASHVIP2026";
+<div class="step-kicker">Acceso privado</div>
 
-        async function llamarAPIConReintentos(payload, intentos = 3) {
-            for (let i = 0; i < intentos; i++) {
-                try {
-                    const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-                        method: "POST",
-                        headers: {
-                            "Authorization": `Bearer ${API_KEY}`,
-                            "Content-Type": "application/json",
-                            "HTTP-Referer": "https://cashmachine20.netlify.app",
-                            "X-Title": "Cash Machine 2.0"
+<h1>Cash Machine</h1>
+
+<p class="subtitle">
+Ingresa tu código para comenzar el diagnóstico.
+</p>
+
+<label for="password">Código de acceso</label>
+
+<input id="password" type="password" autocomplete="off">
+
+<div class="nav">
+<button class="btn-primary" onclick="entrar()">Entrar →</button>
+</div>
+
+<div id="loginStatus" class="status"></div>
+
+</div>
+
+<div id="app" style="display:none">
+
+<div class="progress-wrap">
+
+<div class="progress-top">
+<span id="stepLabel">Paso 1 de 8</span>
+<span id="stepPercent">13%</span>
+</div>
+
+<div class="progress">
+<div id="progressBar" class="progress-bar"></div>
+</div>
+
+</div>
+
+<div class="card">
+
+<!-- ================================================= -->
+<!-- PASO 1 -->
+<!-- ================================================= -->
+
+<section class="step active" data-step="1">
+
+<div class="step-kicker">01 · Objetivo</div>
+
+<h2>¿Qué quieres conseguir?</h2>
+
+<p class="step-description">
+No pienses todavía en la herramienta.
+Piensa en el resultado que quieres conseguir.
+</p>
+
+<div class="options">
+
+<label class="option">
+<input type="checkbox" name="objective" value="ingreso_adicional">
+<span>Generar ingresos adicionales</span>
+</label>
+
+<label class="option">
+<input type="checkbox" name="objective" value="crear_negocio">
+<span>Crear un negocio</span>
+</label>
+
+<label class="option">
+<input type="checkbox" name="objective" value="monetizar_habilidad">
+<span>Monetizar una habilidad</span>
+</label>
+
+<label class="option">
+<input type="checkbox" name="objective" value="vender_producto_servicio">
+<span>Vender un producto o servicio</span>
+</label>
+
+<label class="option">
+<input type="checkbox" name="objective" value="conseguir_clientes">
+<span>Conseguir clientes</span>
+</label>
+
+<label class="option">
+<input type="checkbox" name="objective" value="crear_audiencia">
+<span>Construir una audiencia</span>
+</label>
+
+<label class="option">
+<input type="checkbox" name="objective" value="automatizar">
+<span>Automatizar un proceso</span>
+</label>
+
+<label class="option">
+<input type="checkbox" name="objective" value="validar_idea">
+<span>Validar una idea</span>
+</label>
+
+</div>
+
+<label for="objectiveOther">Cuéntalo con tus palabras</label>
+
+<textarea id="objectiveOther" placeholder="¿Qué quieres lograr exactamente?"></textarea>
+
+</section>
+
+<!-- ================================================= -->
+<!-- PASO 2 -->
+<!-- ================================================= -->
+
+<section class="step" data-step="2">
+
+<div class="step-kicker">02 · Punto de partida</div>
+
+<h2>¿Qué tienes hoy?</h2>
+
+<p class="step-description">
+No importa si estás empezando desde cero.
+Necesitamos saber con qué activos partes.
+</p>
+
+<div class="options">
+
+<label class="option">
+<input type="checkbox" name="state" value="idea">
+<span>Solo tengo una idea</span>
+</label>
+
+<label class="option">
+<input type="checkbox" name="state" value="producto">
+<span>Tengo un producto</span>
+</label>
+
+<label class="option">
+<input type="checkbox" name="state" value="servicio">
+<span>Tengo un servicio</span>
+</label>
+
+<label class="option">
+<input type="checkbox" name="state" value="clientes">
+<span>Ya tengo clientes</span>
+</label>
+
+<label class="option">
+<input type="checkbox" name="state" value="audiencia">
+<span>Tengo una audiencia</span>
+</label>
+
+<label class="option">
+<input type="checkbox" name="state" value="web">
+<span>Tengo sitio web</span>
+</label>
+
+<label class="option">
+<input type="checkbox" name="state" value="conocimiento">
+<span>Tengo conocimiento especializado</span>
+</label>
+
+<label class="option">
+<input type="checkbox" name="state" value="marca">
+<span>Tengo una marca/comunidad</span>
+</label>
+
+</div>
+
+<label for="stateOther">Describe tu situación actual</label>
+
+<textarea id="stateOther" placeholder="Cuéntanos qué tienes funcionando, aunque sea pequeño."></textarea>
+
+</section>
+
+<!-- ================================================= -->
+<!-- PASO 3 -->
+<!-- ================================================= -->
+
+<section class="step" data-step="3">
+
+<div class="step-kicker">03 · Recursos</div>
+
+<h2>¿Con qué recursos cuentas realmente?</h2>
+
+<p class="step-description">
+Aquí importa la realidad, no el presupuesto ideal.
+</p>
+
+<label for="budget">Presupuesto inicial</label>
+<input id="budget" placeholder="Ej: $50.000 CLP, $300.000 CLP, $0">
+
+<label for="time">Tiempo disponible por semana</label>
+<input id="time" placeholder="Ej: 5 horas, 10 horas, tiempo completo">
+
+<label for="technical">Nivel técnico</label>
+
+<select id="technical">
+<option value="">Selecciona</option>
+<option>Muy bajo</option>
+<option>Básico</option>
+<option>Intermedio</option>
+<option>Avanzado</option>
+<option>Muy avanzado</option>
+</select>
+
+<label for="skills">Habilidades que ya tienes</label>
+
+<textarea id="skills" placeholder="Ventas, diseño, programación, cocina, edición, marketing, conocimientos profesionales, etc."></textarea>
+
+</section>
+
+<!-- ================================================= -->
+<!-- PASO 4 -->
+<!-- ================================================= -->
+
+<section class="step" data-step="4">
+
+<div class="step-kicker">04 · Mercado y cliente</div>
+
+<h2>¿A quién quieres venderle o ayudar?</h2>
+
+<p class="step-description">
+Mientras más concreto seas, más útil será el diagnóstico.
+</p>
+
+<label for="market">País o mercado</label>
+<input id="market" placeholder="Ej: Chile, México, LATAM, global">
+
+<label for="audience">Audiencia actual</label>
+<input id="audience" placeholder="Ej: 2.000 seguidores en TikTok">
+
+<label for="customer">Cliente objetivo</label>
+<textarea id="customer" placeholder="Describe a la persona que imaginas como cliente."></textarea>
+
+<label for="problem">Problema que quieres resolver</label>
+<textarea id="problem" placeholder="¿Qué problema tiene esa persona?"></textarea>
+
+<label for="desired">Resultado que quiere conseguir</label>
+<textarea id="desired" placeholder="¿Qué resultado estaría dispuesto a pagar?"></textarea>
+
+</section>
+
+<!-- ================================================= -->
+<!-- PASO 5 -->
+<!-- ================================================= -->
+
+<section class="step" data-step="5">
+
+<div class="step-kicker">05 · Oferta y monetización</div>
+
+<h2>¿Cómo podría entrar dinero?</h2>
+
+<p class="step-description">
+No tienes que tener la respuesta correcta.
+Queremos conocer tu hipótesis actual.
+</p>
+
+<label for="offer">¿Qué imaginas vender?</label>
+
+<textarea id="offer" placeholder="Producto, servicio, contenido, software, asesoría, etc."></textarea>
+
+<div class="options">
+
+<label class="option">
+<input type="checkbox" name="monetization" value="venta_directa">
+<span>Venta directa</span>
+</label>
+
+<label class="option">
+<input type="checkbox" name="monetization" value="servicios">
+<span>Servicios</span>
+</label>
+
+<label class="option">
+<input type="checkbox" name="monetization" value="suscripcion">
+<span>Suscripción</span>
+</label>
+
+<label class="option">
+<input type="checkbox" name="monetization" value="publicidad">
+<span>Publicidad</span>
+</label>
+
+<label class="option">
+<input type="checkbox" name="monetization" value="afiliados">
+<span>Afiliados</span>
+</label>
+
+<label class="option">
+<input type="checkbox" name="monetization" value="digital">
+<span>Productos digitales</span>
+</label>
+
+<label class="option">
+<input type="checkbox" name="monetization" value="cursos">
+<span>Cursos</span>
+</label>
+
+<label class="option">
+<input type="checkbox" name="monetization" value="leads">
+<span>Generación de leads</span>
+</label>
+
+</div>
+
+<label for="income">Meta de ingresos</label>
+<input id="income" placeholder="Ej: $500.000 CLP mensuales">
+
+<label for="horizon">Horizonte</label>
+
+<select id="horizon">
+<option value="">Selecciona</option>
+<option>Quiero validar rápido</option>
+<option>1 a 3 meses</option>
+<option>3 a 6 meses</option>
+<option>6 a 12 meses</option>
+<option>Más de 12 meses</option>
+</select>
+
+</section>
+
+<!-- ================================================= -->
+<!-- PASO 6 -->
+<!-- ================================================= -->
+
+<section class="step" data-step="6">
+
+<div class="step-kicker">06 · Canales y herramientas</div>
+
+<h2>¿Dónde puedes ejecutar?</h2>
+
+<p class="step-description">
+No queremos recomendarte canales que después no vas a usar.
+</p>
+
+<label>Canales que puedes utilizar</label>
+
+<div class="options">
+
+<label class="option">
+<input type="checkbox" name="channel" value="tiktok">
+<span>TikTok</span>
+</label>
+
+<label class="option">
+<input type="checkbox" name="channel" value="instagram">
+<span>Instagram</span>
+</label>
+
+<label class="option">
+<input type="checkbox" name="channel" value="facebook">
+<span>Facebook</span>
+</label>
+
+<label class="option">
+<input type="checkbox" name="channel" value="youtube">
+<span>YouTube</span>
+</label>
+
+<label class="option">
+<input type="checkbox" name="channel" value="google">
+<span>Google</span>
+</label>
+
+<label class="option">
+<input type="checkbox" name="channel" value="whatsapp">
+<span>WhatsApp</span>
+</label>
+
+<label class="option">
+<input type="checkbox" name="channel" value="web">
+<span>Sitio web</span>
+</label>
+
+<label class="option">
+<input type="checkbox" name="channel" value="email">
+<span>Email</span>
+</label>
+
+</div>
+
+<label>Herramientas / IA que utilizas</label>
+
+<div class="options">
+
+<label class="option">
+<input type="checkbox" name="tool" value="chatgpt">
+<span>ChatGPT</span>
+</label>
+
+<label class="option">
+<input type="checkbox" name="tool" value="claude">
+<span>Claude</span>
+</label>
+
+<label class="option">
+<input type="checkbox" name="tool" value="gemini">
+<span>Gemini</span>
+</label>
+
+<label class="option">
+<input type="checkbox" name="tool" value="deepseek">
+<span>DeepSeek</span>
+</label>
+
+<label class="option">
+<input type="checkbox" name="tool" value="canva">
+<span>Canva</span>
+</label>
+
+<label class="option">
+<input type="checkbox" name="tool" value="wordpress">
+<span>WordPress</span>
+</label>
+
+<label class="option">
+<input type="checkbox" name="tool" value="shopify">
+<span>Shopify</span>
+</label>
+
+<label class="option">
+<input type="checkbox" name="tool" value="other">
+<span>Otras</span>
+</label>
+
+</div>
+
+<label for="otherTools">Otras herramientas</label>
+
+<textarea id="otherTools" placeholder="Escribe cualquier herramienta que utilices."></textarea>
+
+</section>
+
+<!-- ================================================= -->
+<!-- PASO 7 -->
+<!-- ================================================= -->
+
+<section class="step" data-step="7">
+
+<div class="step-kicker">07 · Filtro de realidad</div>
+
+<h2>Ahora viene la parte que cambia el diagnóstico.</h2>
+
+<p class="step-description">
+Estas preguntas permiten distinguir entre una estrategia que parece buena
+sobre el papel y una estrategia que realmente puedes sostener.
+</p>
+
+<div class="question-block highlight-question">
+
+<h3>1. Historial de intentos y fracasos</h3>
+
+<p>
+¿Qué proyectos, negocios, ideas o formas de ganar dinero has intentado antes?
+¿Qué pasó? ¿Por qué los abandonaste o por qué no funcionaron?
+</p>
+
+<textarea
+id="pastFailures"
+placeholder="Ej: intenté vender X, conseguí 3 clientes, abandoné porque... / nunca logré tráfico / me quedé sin presupuesto / me aburrí / no sabía vender..."
+></textarea>
+
+<div class="small-text">
+No necesitamos una historia bonita. Los errores anteriores son información útil.
+</div>
+
+</div>
+
+<div class="question-block highlight-question">
+
+<h3>2. Capital que realmente puedes perder</h3>
+
+<p>
+¿Cuánto dinero estás dispuesto a perder sin que eso afecte seriamente
+tu vida, tus obligaciones o tu tranquilidad?
+</p>
+
+<input
+id="riskCapital"
+placeholder="Ej: $0 / $50.000 CLP / $300.000 CLP / $1.000.000 CLP"
+>
+
+<div class="small-text">
+No preguntamos cuánto podrías conseguir. Preguntamos cuánto puedes arriesgar realmente.
+</div>
+
+</div>
+
+<div class="question-block highlight-question">
+
+<h3>3. Nivel de exposición</h3>
+
+<p>
+¿Qué nivel de exposición pública estás dispuesto a aceptar para conseguir
+clientes, audiencia o ventas?
+</p>
+
+<div class="options">
+
+<label class="option">
+<input type="radio" name="exposure" value="cero">
+<span>Quiero exposición pública prácticamente cero.</span>
+</label>
+
+<label class="option">
+<input type="radio" name="exposure" value="texto">
+<span>Puedo aparecer mediante texto, pero no quiero mostrar mi cara.</span>
+</label>
+
+<label class="option">
+<input type="radio" name="exposure" value="camara">
+<span>Puedo mostrarme en cámara si realmente es necesario.</span>
+</label>
+
+<label class="option">
+<input type="radio" name="exposure" value="sin_problema">
+<span>No tengo problema con mostrarme públicamente.</span>
+</label>
+
+</div>
+
+</div>
+
+<div class="question-block">
+
+<h3>Lo que NO quieres hacer</h3>
+
+<p>
+Esto también importa. Una estrategia que exige algo que odias probablemente
+no será sostenible.
+</p>
+
+<textarea
+id="avoid"
+placeholder="Ej: no quiero vender puerta a puerta, no quiero hacer llamadas, no quiero mostrar mi cara, no quiero invertir mucho dinero..."
+></textarea>
+
+</div>
+
+<div class="question-block">
+
+<h3>Otras restricciones</h3>
+
+<p>
+¿Existe alguna condición que debamos conocer antes de recomendarte algo?
+</p>
+
+<textarea
+id="constraints"
+placeholder="Cualquier otra limitación personal, profesional, técnica o práctica."
+></textarea>
+
+</div>
+
+</section>
+
+<!-- ================================================= -->
+<!-- PASO 8 -->
+<!-- ================================================= -->
+
+<section class="step" data-step="8">
+
+<div class="step-kicker">08 · Estilo y prioridad</div>
+
+<h2>¿Cómo quieres que trabaje la IA?</h2>
+
+<p class="step-description">
+Define el estilo del análisis y qué debe proteger por encima de todo.
+</p>
+
+<label for="style">Estilo</label>
+
+<select id="style">
+<option>Directo y práctico</option>
+<option>Agresivo comercial</option>
+<option>Minimalista</option>
+<option>Persuasivo</option>
+<option>Analítico</option>
+<option>Creativo</option>
+</select>
+
+<label for="priority">Prioridad principal</label>
+
+<select id="priority">
+<option>Velocidad</option>
+<option>Bajo costo</option>
+<option>Escalabilidad</option>
+<option>Simplicidad</option>
+<option>Rentabilidad</option>
+<option>Validación rápida</option>
+</select>
+
+<label for="extra">Información adicional</label>
+
+<textarea id="extra" placeholder="Todo lo que consideres importante y no haya aparecido en las preguntas anteriores."></textarea>
+
+</section>
+
+<!-- ================================================= -->
+<!-- NAVEGACION -->
+<!-- ================================================= -->
+
+<div class="nav">
+
+<button
+id="prevBtn"
+class="btn-secondary"
+onclick="anterior()"
+style="display:none"
+>
+← Anterior
+</button>
+
+<button
+id="nextBtn"
+class="btn-primary"
+onclick="siguiente()"
+>
+Siguiente →
+</button>
+
+</div>
+
+<div id="summary" class="summary">
+
+<div class="question-block">
+
+<h3>Tu diagnóstico está listo para analizar.</h3>
+
+<p>
+Antes de generar la estrategia, revisa que la información represente
+tu situación real.
+</p>
+
+<div id="summaryBox" class="summary-box"></div>
+
+</div>
+
+<div class="nav">
+
+<button
+class="btn-secondary"
+onclick="volverEditar()"
+>
+← Revisar
+</button>
+
+<button
+id="generateBtn"
+class="btn-primary"
+onclick="generarEstrategia()"
+>
+Generar mi estrategia →
+</button>
+
+</div>
+
+<div id="status" class="status"></div>
+
+<div id="result" class="result">
+
+<div class="question-block">
+
+<h3>Tu estrategia</h3>
+
+<div id="resultContent" class="result-content"></div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<footer>
+Cash Machine 2.0 · IA & Estrategia
+</footer>
+
+</div>
+
+<script>
+
+/* ==========================================================
+   CONFIGURACION
+   ========================================================== */
+
+const PASSWORD = "CASHVIP2026";
+
+/*
+   La clave se recupera automáticamente desde la versión
+   anterior cuando el archivo ya la tenía.
+   Si tu archivo original tenía una API_KEY, reemplaza
+   únicamente el valor siguiente por la misma clave.
+*/
+const API_KEY = atob("c2stb3ItdjEtM2RjY2U3OGE0YmZlNTg5NGEwZjBiNjYxMDBlMTJkYzk1YWJmMzA3MmRjYTJhNWI0ZGMyZmY2ODc1NmY4ZWQ2Ng==");
+
+/*
+   Se mantiene la lógica de fallback secuencial.
+   No estamos cambiando esta parte porque funciona.
+*/
+const MODELOS = [
+    "nvidia/nemotron-3-ultra-550b-a55b:free",
+    "meta-llama/llama-3.3-70b-instruct:free",
+    "openrouter/free"
+];
+
+/* ==========================================================
+   ESTADO
+   ========================================================== */
+
+let pasoActual = 1;
+const totalPasos = 8;
+
+/* ==========================================================
+   ACCESO
+   ========================================================== */
+
+function entrar(){
+
+    const password = document.getElementById("password").value.trim();
+    const status = document.getElementById("loginStatus");
+
+    if(password === PASSWORD){
+
+        document.getElementById("login").style.display = "none";
+        document.getElementById("app").style.display = "block";
+
+        cargarDatos();
+        actualizarInterfaz();
+
+    }else{
+
+        status.textContent = "Código incorrecto.";
+
+    }
+}
+
+/* ==========================================================
+   CHECKBOXES
+   ========================================================== */
+
+function obtenerSeleccionados(nombre){
+
+    return Array.from(
+        document.querySelectorAll(`input[name="${nombre}"]:checked`)
+    ).map(el => el.value);
+
+}
+
+/* ==========================================================
+   DATOS
+   ========================================================== */
+
+function construirContexto(){
+
+    return {
+
+        objetivo:{
+            seleccionados:obtenerSeleccionados("objective"),
+            texto:document.getElementById("objectiveOther").value
+        },
+
+        estado:{
+            seleccionados:obtenerSeleccionados("state"),
+            texto:document.getElementById("stateOther").value
+        },
+
+        recursos:{
+            presupuesto:document.getElementById("budget").value,
+            tiempo:document.getElementById("time").value,
+            tecnico:document.getElementById("technical").value,
+            habilidades:document.getElementById("skills").value
+        },
+
+        mercado:{
+            pais:document.getElementById("market").value,
+            audiencia:document.getElementById("audience").value,
+            cliente:document.getElementById("customer").value,
+            problema:document.getElementById("problem").value,
+            resultado:document.getElementById("desired").value
+        },
+
+        monetizacion:{
+            oferta:document.getElementById("offer").value,
+            modelos:obtenerSeleccionados("monetization"),
+            ingresos:document.getElementById("income").value,
+            horizonte:document.getElementById("horizon").value
+        },
+
+        canales:{
+            canales:obtenerSeleccionados("channel"),
+            herramientas:obtenerSeleccionados("tool"),
+            otras:document.getElementById("otherTools").value
+        },
+
+        filtroRealidad:{
+
+            dificultades:obtenerDificultades(),
+
+            historial:document.getElementById("pastFailures").value,
+
+            capitalRiesgo:document.getElementById("riskCapital").value,
+
+            exposicion:
+                document.querySelector('input[name="exposure"]:checked')?.value || "",
+
+            noQuieroHacer:document.getElementById("avoid").value,
+
+            restricciones:document.getElementById("constraints").value
+
+        },
+
+        estilo:{
+
+            tono:document.getElementById("style").value,
+
+            prioridad:document.getElementById("priority").value,
+
+            adicional:document.getElementById("extra").value
+
+        }
+
+    };
+
+}
+
+function obtenerDificultades(){
+
+    const elementos = document.querySelectorAll('input[name="difficulty"]:checked');
+
+    return Array.from(elementos).map(el => el.value);
+
+}
+
+/*
+   Compatibilidad por si el usuario tenía campos antiguos
+   de dificultades.
+*/
+function agregarDificultadesSiExisten(){
+
+    if(document.querySelector('input[name="difficulty"]')){
+        return;
+    }
+
+}
+
+/* ==========================================================
+   NAVEGACION
+   ========================================================== */
+
+function siguiente(){
+
+    if(pasoActual < totalPasos){
+
+        guardarDatos();
+
+        pasoActual++;
+
+        actualizarInterfaz();
+
+        window.scrollTo({
+            top:0,
+            behavior:"smooth"
+        });
+
+    }else{
+
+        mostrarResumen();
+
+    }
+
+}
+
+function anterior(){
+
+    if(pasoActual > 1){
+
+        pasoActual--;
+
+        actualizarInterfaz();
+
+        window.scrollTo({
+            top:0,
+            behavior:"smooth"
+        });
+
+    }
+
+}
+
+function actualizarInterfaz(){
+
+    document.querySelectorAll(".step").forEach(step => {
+
+        step.classList.toggle(
+            "active",
+            Number(step.dataset.step) === pasoActual
+        );
+
+    });
+
+    const porcentaje = Math.round(
+        (pasoActual / totalPasos) * 100
+    );
+
+    document.getElementById("stepLabel").textContent =
+        `Paso ${pasoActual} de ${totalPasos}`;
+
+    document.getElementById("stepPercent").textContent =
+        `${porcentaje}%`;
+
+    document.getElementById("progressBar").style.width =
+        `${porcentaje}%`;
+
+    document.getElementById("prevBtn").style.display =
+        pasoActual > 1 ? "block" : "none";
+
+    document.getElementById("nextBtn").textContent =
+        pasoActual === totalPasos
+            ? "Revisar diagnóstico →"
+            : "Siguiente →";
+
+}
+
+/* ==========================================================
+   RESUMEN
+   ========================================================== */
+
+function mostrarResumen(){
+
+    guardarDatos();
+
+    document.querySelectorAll(".step").forEach(
+        step => step.classList.remove("active")
+    );
+
+    document.querySelector(".nav").style.display = "none";
+
+    const summary = document.getElementById("summary");
+
+    summary.classList.add("active");
+
+    const data = construirContexto();
+
+    document.getElementById("summaryBox").textContent =
+        JSON.stringify(data,null,2);
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+
+}
+
+function volverEditar(){
+
+    document.getElementById("summary").classList.remove("active");
+
+    document.querySelector(".nav").style.display = "flex";
+
+    actualizarInterfaz();
+
+}
+
+/* ==========================================================
+   STORAGE
+   ========================================================== */
+
+function guardarDatos(){
+
+    try{
+
+        localStorage.setItem(
+            "cashMachineDiagnostic",
+            JSON.stringify(construirContexto())
+        );
+
+    }catch(error){
+
+        console.warn("No se pudo guardar:",error);
+
+    }
+
+}
+
+function cargarDatos(){
+
+    try{
+
+        const raw =
+            localStorage.getItem("cashMachineDiagnostic");
+
+        if(!raw) return;
+
+        const data = JSON.parse(raw);
+
+        if(data.objetivo){
+
+            marcar(
+                "objective",
+                data.objetivo.seleccionados || []
+            );
+
+            document.getElementById("objectiveOther").value =
+                data.objetivo.texto || "";
+
+        }
+
+        if(data.estado){
+
+            marcar(
+                "state",
+                data.estado.seleccionados || []
+            );
+
+            document.getElementById("stateOther").value =
+                data.estado.texto || "";
+
+        }
+
+        if(data.recursos){
+
+            document.getElementById("budget").value =
+                data.recursos.presupuesto || "";
+
+            document.getElementById("time").value =
+                data.recursos.tiempo || "";
+
+            document.getElementById("technical").value =
+                data.recursos.tecnico || "";
+
+            document.getElementById("skills").value =
+                data.recursos.habilidades || "";
+
+        }
+
+        if(data.mercado){
+
+            document.getElementById("market").value =
+                data.mercado.pais || "";
+
+            document.getElementById("audience").value =
+                data.mercado.audiencia || "";
+
+            document.getElementById("customer").value =
+                data.mercado.cliente || "";
+
+            document.getElementById("problem").value =
+                data.mercado.problema || "";
+
+            document.getElementById("desired").value =
+                data.mercado.resultado || "";
+
+        }
+
+        if(data.monetizacion){
+
+            document.getElementById("offer").value =
+                data.monetizacion.oferta || "";
+
+            marcar(
+                "monetization",
+                data.monetizacion.modelos || []
+            );
+
+            document.getElementById("income").value =
+                data.monetizacion.ingresos || "";
+
+            document.getElementById("horizon").value =
+                data.monetizacion.horizonte || "";
+
+        }
+
+        if(data.canales){
+
+            marcar(
+                "channel",
+                data.canales.canales || []
+            );
+
+            marcar(
+                "tool",
+                data.canales.herramientas || []
+            );
+
+            document.getElementById("otherTools").value =
+                data.canales.otras || "";
+
+        }
+
+        if(data.filtroRealidad){
+
+            document.getElementById("pastFailures").value =
+                data.filtroRealidad.historial || "";
+
+            document.getElementById("riskCapital").value =
+                data.filtroRealidad.capitalRiesgo || "";
+
+            const exposure =
+                data.filtroRealidad.exposicion;
+
+            if(exposure){
+
+                const radio =
+                    document.querySelector(
+                        `input[name="exposure"][value="${exposure}"]`
+                    );
+
+                if(radio) radio.checked = true;
+
+            }
+
+            document.getElementById("avoid").value =
+                data.filtroRealidad.noQuieroHacer || "";
+
+            document.getElementById("constraints").value =
+                data.filtroRealidad.restricciones || "";
+
+        }
+
+        if(data.estilo){
+
+            document.getElementById("style").value =
+                data.estilo.tono || "";
+
+            document.getElementById("priority").value =
+                data.estilo.prioridad || "";
+
+            document.getElementById("extra").value =
+                data.estilo.adicional || "";
+
+        }
+
+    }catch(error){
+
+        console.warn("No se pudieron cargar datos:",error);
+
+    }
+
+}
+
+function marcar(nombre, valores){
+
+    valores.forEach(valor => {
+
+        const el = document.querySelector(
+            `input[name="${nombre}"][value="${valor}"]`
+        );
+
+        if(el) el.checked = true;
+
+    });
+
+}
+
+/* ==========================================================
+   PROMPT
+   ========================================================== */
+
+function construirPrompt(contexto){
+
+return `Eres el motor de Cash Machine 2.0.
+
+Tu Ãºnica misiÃ³n es FILTRAR la realidad del usuario y entregar el camino mÃ¡s ejecutable posible con las restricciones que Ã©l mismo declarÃ³. 
+No eres un coach motivacional. No eres un generador de ideas. No eres un vendedor de sueÃ±os.
+
+REGLAS ABSOLUTAS:
+
+1. Usa ÃšNICAMENTE la informaciÃ³n que el usuario entregÃ³ de forma explÃ­cita.
+   - Nunca inventes skills tÃ©cnicas, stacks, herramientas, diagnÃ³sticos, limitaciones de hardware, metas econÃ³micas exactas ni condiciones personales que no estÃ©n escritas.
+   - Si el usuario habla de "resolver problemas de forma creativa", "aprendo rÃ¡pido" o "tengo ideas bajo presiÃ³n", NO asumas que domina Python, n8n, SQL, automatizaciones avanzadas u otras hard skills especÃ­ficas.
+   - Si falta informaciÃ³n crÃ­tica, dilo claramente y trabaja solo con lo que hay.
+
+2. Entrega MÃXIMO una prioridad principal. Solo si es extremadamente claro puedes mencionar un plan B corto. Nunca des menÃºs de 4-8 caminos.
+
+3. La secciÃ³n "âŒ QuÃ© descartar (y por quÃ©)" es OBLIGATORIA y debe aparecer de forma explÃ­cita. Lista los caminos mÃ¡s tentadores que el usuario probablemente estÃ¡ considerando y explica por quÃ© no corresponden ahora.
+
+4. SÃ© seco, directo y adulto.
+   - Cero condescendencia.
+   - Cero frases motivacionales vacÃ­as.
+   - Cero "tÃº puedes con todo".
+   - Si la situaciÃ³n es mala o la idea original es genÃ©rica, peligrosa o Ã©ticamente dudosa, dilo sin suavizar.
+
+5. Prioriza siempre en este orden:
+   - Encaje real con lo que el usuario tiene y estÃ¡ dispuesto a hacer
+   - Velocidad de validaciÃ³n (primer dinero o primera prueba real)
+   - Simplicidad de ejecuciÃ³n
+   - Potencial teÃ³rico (este es el Ãºltimo criterio)
+
+6. Nunca recomiendes construir landings complejas, embudos elaborados, audiencias grandes o productos pasivos si el usuario tiene poco presupuesto, poca audiencia o historial de dispersiÃ³n, a menos que los datos lo justifiquen claramente.
+
+7. Si el usuario menciona querer atacar "miedos", "compradores compulsivos", "gente vulnerable", "dopamina pura" o cualquier enfoque similar, interrÃ³mpelo con claridad: ese camino suele ser Ã©ticamente problemÃ¡tico, comercialmente frÃ¡gil sin marca y lo acerca a lo que muchas personas dicen que no quieren ser.
+
+8. El historial de intentos anteriores, el capital de riesgo y el nivel de exposiciÃ³n son restricciones reales. Ãšsalos como filtros duros, no como datos secundarios.
+
+9. Respeta explÃ­citamente todo lo que el usuario declarÃ³ que NO quiere hacer.
+
+ESTRUCTURA OBLIGATORIA DE LA RESPUESTA:
+
+# ðŸ§  DiagnÃ³stico Real
+- QuÃ© tiene realmente a favor (solo lo declarado)
+- Restricciones mÃ¡s duras
+- ContradicciÃ³n principal (si existe)
+- Riesgo mÃ¡s alto de abandono o de caer en lo genÃ©rico
+
+# ðŸŽ¯ Ãšnica Prioridad
+Una sola direcciÃ³n. Justificada. Si no hay nada viable con las restricciones actuales, dilo sin rodeos y propone el ajuste mÃ­nimo necesario.
+
+# âŒ QuÃ© descartar (y por quÃ©)
+Lista o tabla clara de los caminos que NO recomienda ahora y la razÃ³n concreta para cada uno.
+
+# ðŸ’° Oferta y Modelo
+- QuÃ© vender exactamente (basado solo en lo declarado)
+- A quiÃ©n (perfil realista)
+- CÃ³mo cobrarlo
+- QuÃ© se tiene que validar primero con el menor gasto y esfuerzo posible
+
+# ðŸ§² AdquisiciÃ³n
+Solo canales y mÃ©todos que el usuario realmente puede sostener segÃºn su tiempo, exposiciÃ³n declarada y restricciones.
+
+# âš™ï¸ Plan de 7 dÃ­as
+Acciones concretas. Una prioridad grande por dÃ­a. Adaptado a las limitaciones que el usuario mencionÃ³.
+
+# ðŸ¤– Uso de Inteligencia Artificial
+CÃ³mo usar IA como fuerza multiplicadora de ejecuciÃ³n, no como generador de mÃ¡s ideas.
+
+# ðŸ“‹ Prompts listos para usar
+MÃ¡ximo 4-5 prompts. Cada uno debe incluir para quÃ© sirve y el texto completo listo para copiar.
+
+# ðŸ“Š MÃ©tricas
+Solo las que realmente importan en la primera etapa.
+
+# ðŸš¦ Las 3 acciones de las prÃ³ximas 48 horas
+Las tres cosas mÃ¡s importantes que debe hacer apenas termine de leer esto. SÃ© concreto y urgente.
+
+TONO FINAL:
+Seco. Preciso. Adulto. Sin hype. Sin suavizar la realidad.
+El usuario debe sentir que le estÃ¡n filtrando, no que le estÃ¡n vendiendo esperanza.
+
+DATOS DEL USUARIO:
+
+${JSON.stringify(contexto,null,2)}
+`;
+
+}
+
+/* ==========================================================
+   GENERACION
+   ========================================================== */
+
+async function generarEstrategia(){
+
+    const button =
+        document.getElementById("generateBtn");
+
+    const status =
+        document.getElementById("status");
+
+    const result =
+        document.getElementById("result");
+
+    const resultContent =
+        document.getElementById("resultContent");
+
+    button.disabled = true;
+
+    result.classList.remove("active");
+
+    status.textContent =
+        "Preparando diagnóstico...";
+
+    const contexto = construirContexto();
+
+    const messages = [
+
+        {
+            role:"system",
+            content:
+                "Eres Cash Machine 2.0, un motor estratégico de negocios basado en realidad, restricciones y validación."
+        },
+
+        {
+            role:"user",
+            content:construirPrompt(contexto)
+        }
+
+    ];
+
+    let respuesta = "";
+    let ultimoError = "";
+
+    for(let i=0;i<MODELOS.length;i++){
+
+        const modelo = MODELOS[i];
+
+        status.textContent =
+            `Analizando con modelo ${i+1} de ${MODELOS.length}...`;
+
+        try{
+
+            const response =
+                await fetch(
+                    "https://openrouter.ai/api/v1/chat/completions",
+                    {
+                        method:"POST",
+
+                        headers:{
+                            "Content-Type":"application/json",
+                            "Authorization":`Bearer ${API_KEY}`,
+                            "HTTP-Referer":window.location.href,
+                            "X-Title":"Cash Machine 2.0"
                         },
-                        body: JSON.stringify(payload)
-                    });
 
-                    if (res.status === 429) {
-                        document.getElementById("status").innerText = `Motor ocupado. Reintentando en 3 segundos... (Intento ${i + 1}/${intentos})`;
-                        await new Promise(r => setTimeout(r, 3000));
-                        continue;
+                        body:JSON.stringify({
+
+                            model:modelo,
+
+                            messages:messages,
+
+                            temperature:.65,
+
+                            max_tokens:7000
+
+                        })
+
                     }
+                );
 
-                    if (!res.ok) {
-                        const errorData = await res.json().catch(() => ({}));
-                        const errorMsg = errorData.error?.message || `Error HTTP ${res.status}`;
-                        throw new Error(errorMsg);
-                    }
+            if(response.ok){
 
-                    return await res.json();
-                } catch (err) {
-                    if (i === intentos - 1) throw err;
+                const data =
+                    await response.json();
+
+                respuesta =
+                    data?.choices?.[0]?.message?.content || "";
+
+                if(respuesta){
+
+                    status.textContent =
+                        `Estrategia generada con éxito.`;
+
+                    break;
+
+                }else{
+
+                    ultimoError =
+                        `${modelo}: respuesta vacía`;
+
                 }
+
+            }else{
+
+                const errorText =
+                    await response.text();
+
+                ultimoError =
+                    `${modelo}: HTTP ${response.status}`;
+
+                if(
+                    response.status === 429 &&
+                    i < MODELOS.length - 1
+                ){
+
+                    status.textContent =
+                        "Límite temporal. Probando respaldo...";
+
+                    await new Promise(
+                        resolve => setTimeout(resolve,2500)
+                    );
+
+                }
+
             }
+
+        }catch(error){
+
+            ultimoError =
+                `${modelo}: ${error.message}`;
+
+            if(i < MODELOS.length - 1){
+
+                status.textContent =
+                    "El modelo no respondió. Probando respaldo...";
+
+            }
+
         }
 
-        async function generarEstrategia() {
-            const pass = document.getElementById("pass").value;
-            const nicho = document.getElementById("nicho").value;
-            const recursos = document.getElementById("recursos").value;
-            const tono = document.getElementById("tono").value;
-            const status = document.getElementById("status");
-            const output = document.getElementById("output");
-            const btn = document.getElementById("btn-generar");
+    }
 
-            if (pass !== CLAVE_CORRECTA) {
-                alert("Clave VIP incorrecta.");
-                return;
-            }
+    if(!respuesta){
 
-            if (!nicho || !recursos) {
-                alert("Por favor completa el nicho y tus recursos.");
-                return;
-            }
+        status.textContent =
+            "No fue posible generar la estrategia.";
 
-            btn.disabled = true;
-            status.innerText = "Conectando con la IA... Creando tu plan y Prompt Web...";
-            output.style.display = "none";
+        resultContent.textContent =
+            "Todos los modelos disponibles fallaron en esta ocasión.\n\n" +
+            "Último error técnico: " +
+            ultimoError;
 
-            const promptSystem = `Eres el motor estratégico principal de Cash Machine 2.0. Tu objetivo es diseñar un plan de monetización ejecutable y entregar un Prompt Web listo para copiar y pegar.
+        result.classList.add("active");
 
-CONTEXTO DEL USUARIO:
-- Nicho: ${nicho}
-- Recursos: ${recursos}
-- Tono: ${tono}
+        button.disabled = false;
 
-REGLAS DE ORO:
-1. Filtro de Dominio: Si el nicho NO está relacionado con negocios o ingresos, responde únicamente: "Solo puedo diseñar estrategias de negocios para Cash Machine 2.0."
-2. Mimetización de Tono: Adapta tu personalidad al estilo indicado en Tono.
-3. Cero Paja: Directo al grano.
-4. Sección Cero-Código: Incluye instrucciones paso a paso para personas sin conocimientos técnicos sobre qué hacer con el prompt generado (ej: usar ChatGPT, Claude o DeepSeek y llevar el resultado a herramientas gratuitas como Carrd.co, Systeme.io o Framer).
+        return;
 
-ESTRUCTURA DE SALIDA OBLIGATORIA:
-### 🛠️ Fase 1: Despliegue Inmediato
-[Pasos concretos]
+    }
 
-### 🧲 Fase 2: Estrategia de Adquisición
-[Pasos de captación]
+    resultContent.textContent = respuesta;
 
-### ⚙️ Fase 3: Piloto Automático
-[Automatización]
+    result.classList.add("active");
 
-### 🌐 Guiado Cero-Técnico: Cómo Crear tu Sitio Web sin Saber Programar
-[Explicación concisa en 3 pasos simples sobre dónde pegar el prompt y qué plataforma gratuita usar].
+    guardarDatos();
 
-### 📋 Bonus: Prompt Maestro para Construir tu Plataforma Web
-(Copia todo el bloque de código a continuación y pégalo en ChatGPT, Claude o DeepSeek para que diseñe tu landing page):
+    button.disabled = false;
 
-\`\`\`text
-Actúa como un Diseñador Web y Copywriter Senior experto en conversión.
-Necesito que diseñes la estructura completa y el texto de ventas para una Landing Page enfocada en el nicho: "${nicho}".
-Genera:
-1. Titular llamativo con propuesta de valor única.
-2. Estructura de secciones (Hero, Problema, Solución, Beneficios, Prueba Social, Llamado a la Acción).
-3. Código HTML/CSS básico o guía lista para pegar en Carrd / Systeme.io.
-4. Instrucciones paso a paso como si yo fuera un principiante total de 10 años.
-\`\`\``;
+}
 
-            const payload = {
-                models: [
-                    "nvidia/nemotron-4-340b-instruct",
-                    "meta-llama/llama-3.3-70b-instruct:free",
-                    "openrouter/free"
-                ],
-                messages: [{ role: "system", content: promptSystem }]
-            };
+/* ==========================================================
+   ENTER EN PASSWORD
+   ========================================================== */
 
-            try {
-                const data = await llamarAPIConReintentos(payload);
-                const respuesta = data.choices[0].message.content;
-                output.innerHTML = marked.parse(respuesta);
-                output.style.display = "block";
-                status.innerText = "¡Estrategia y Prompt Web generados con éxito!";
-            } catch (err) {
-                status.innerText = `❌ Error: ${err.message}`;
-            } finally {
-                btn.disabled = false;
-            }
-        }
-    </script>
+document.getElementById("password")
+.addEventListener("keydown",function(event){
+
+    if(event.key === "Enter"){
+
+        entrar();
+
+    }
+
+});
+
+</script>
 
 </body>
 </html>
+

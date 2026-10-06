@@ -1,198 +1,500 @@
 ﻿<!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cash Machine 2.0 | IA & Automatización Exponencial</title>
-    <style>
-        :root {
-            --bg: #030712;
-            --card: #0f172a;
-            --accent: #00ff88;
-            --accent-hover: #00cc6a;
-            --text: #f8fafc;
-            --muted: #94a3b8;
-            --border: #1e293b;
-        }
-        * { box-sizing: border-box; }
-        body {
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
-            margin: 0;
-            padding: 0;
-            overflow-x: hidden;
-        }
-        .hero-badge {
-            display: inline-block;
-            background: rgba(0, 255, 136, 0.1);
-            color: var(--accent);
-            border: 1px solid rgba(0, 255, 136, 0.3);
-            padding: 6px 16px;
-            border-radius: 50px;
-            font-size: 0.85rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 20px;
-        }
-        header {
-            text-align: center;
-            padding: 100px 20px 60px 20px;
-            max-width: 900px;
-            margin: 0 auto;
-        }
-        h1 {
-            font-size: clamp(2.5rem, 5vw, 4rem);
-            line-height: 1.1;
-            margin-bottom: 24px;
-            font-weight: 900;
-            letter-spacing: -1px;
-        }
-        h1 span {
-            background: linear-gradient(135deg, #00ff88, #38bdf8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .subtitle {
-            font-size: 1.2rem;
-            color: var(--muted);
-            max-width: 700px;
-            margin: 0 auto 40px auto;
-            line-height: 1.6;
-        }
-        .main-container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 0 20px 80px 20px;
-        }
-        .pricing-card {
-            background: linear-gradient(145deg, #0f172a, #090d16);
-            border: 2px solid rgba(0, 255, 136, 0.4);
-            border-radius: 24px;
-            padding: 50px 30px;
-            text-align: center;
-            max-width: 600px;
-            margin: 0 auto;
-            box-shadow: 0 0 50px rgba(0, 255, 136, 0.15);
-            position: relative;
-        }
-        .pricing-card::before {
-            content: "ACCESO INMEDIATO";
-            position: absolute;
-            top: -15px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--accent);
-            color: #030712;
-            font-size: 0.75rem;
-            font-weight: 900;
-            padding: 4px 14px;
-            border-radius: 20px;
-            letter-spacing: 1px;
-        }
-        .price-old {
-            text-decoration: line-through;
-            color: var(--muted);
-            font-size: 1.2rem;
-            margin-bottom: 5px;
-        }
-        .price-current {
-            font-size: 3.5rem;
-            font-weight: 900;
-            color: var(--accent);
-            margin: 10px 0 20px 0;
-        }
-        .btn-flow {
-            display: block;
-            width: 100%;
-            background: var(--accent);
-            color: #030712;
-            text-decoration: none;
-            font-size: 1.3rem;
-            font-weight: 900;
-            padding: 20px;
-            border-radius: 12px;
-            transition: all 0.2s ease;
-            box-shadow: 0 10px 25px rgba(0, 255, 136, 0.3);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        .btn-flow:hover {
-            background: var(--accent-hover);
-            transform: translateY(-2px);
-            box-shadow: 0 15px 30px rgba(0, 255, 136, 0.4);
-        }
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-            margin-top: 60px;
-        }
-        .feature-box {
-            background: var(--card);
-            border: 1px solid var(--border);
-            padding: 30px;
-            border-radius: 16px;
-        }
-        .feature-box h3 {
-            color: #38bdf8;
-            margin-top: 0;
-            font-size: 1.25rem;
-        }
-        .feature-box p {
-            color: var(--muted);
-            margin-bottom: 0;
-            font-size: 0.95rem;
-        }
-        footer {
-            text-align: center;
-            padding: 40px;
-            color: var(--muted);
-            font-size: 0.85rem;
-            border-top: 1px solid var(--border);
-            margin-top: 60px;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cash Machine 2.0 | IA & Automatización Exponencial</title>
+<meta name="description" content="Cash Machine analiza tu situación real y te entrega una sola ruta ejecutable. La mayoría de las ideas deberían morir. Nosotros te ayudamos a matarlas a tiempo.">
+<style>
+:root {
+    --bg: #090909;
+    --card: #151310;
+    --orange: #E85D04;
+    --orange2: #F47721;
+    --cream: #F4EFE8;
+    --muted: #A9A39B;
+    --line: rgba(232,93,4,.20);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+    font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    color: var(--cream);
+    background:
+        radial-gradient(circle at 50% -10%, rgba(232,93,4,.15), transparent 40%),
+        var(--bg);
+    overflow-x: hidden;
+    min-height: 100vh;
+}
+
+/* Fondo dinámico: brisa refrescante de alto impacto visual */
+body::before,
+body::after {
+    content: "";
+    position: fixed;
+    inset: -35%;
+    pointer-events: none;
+    z-index: -1;
+}
+
+body::before {
+    background: repeating-linear-gradient(
+        165deg,
+        transparent 0,
+        transparent 70px,
+        rgba(255,255,255,.015) 72px,
+        transparent 75px,
+        transparent 145px
+    );
+    animation: windOne 20s linear infinite;
+}
+
+body::after {
+    background: repeating-linear-gradient(
+        175deg,
+        transparent 0,
+        transparent 110px,
+        rgba(232,93,4,.03) 112px,
+        transparent 116px,
+        transparent 220px
+    );
+    animation: windTwo 28s linear infinite;
+}
+
+@keyframes windOne {
+    from { transform: translate3d(-5%,0,0) rotate(-1deg); }
+    to { transform: translate3d(5%,3%,0) rotate(-1deg); }
+}
+
+@keyframes windTwo {
+    from { transform: translate3d(5%,0,0); }
+    to { transform: translate3d(-5%,-3%,0); }
+}
+
+/* ========== INTRO CORREGIDA Y BLINDADA ========== */
+#intro {
+    position: fixed;
+    inset: 0;
+    background: #090909;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 99999;
+    transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+
+#intro.hide {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.intro-content {
+    text-align: center;
+    position: relative;
+    z-index: 2;
+}
+
+.intro-logo {
+    width: 200px;
+    height: auto;
+    margin-bottom: 20px;
+    mix-blend-mode: screen;
+    filter: drop-shadow(0 0 15px rgba(232,93,4,0.3));
+    animation: pulseLogo 1.5s ease-in-out infinite alternate;
+}
+
+.intro-text {
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: 3px;
+    color: #F4EFE8;
+}
+
+.intro-sub {
+    font-size: 12px;
+    letter-spacing: 2.5px;
+    color: var(--orange);
+    text-transform: uppercase;
+    margin-top: 8px;
+    font-weight: 700;
+}
+
+@keyframes pulseLogo {
+    from { transform: scale(0.98); opacity: 0.85; }
+    to { transform: scale(1.02); opacity: 1; }
+}
+
+/* ========== CONTENIDO PRINCIPAL ========== */
+#main-content {
+    opacity: 1;
+}
+
+.container {
+    width: min(1100px, 92%);
+    margin: 0 auto;
+}
+
+.top-bar {
+    padding: 24px 0;
+    border-bottom: 1px solid var(--line);
+}
+
+.top-bar-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.brand-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.brand-logo {
+    width: 36px;
+    height: auto;
+    mix-blend-mode: screen;
+}
+
+.brand-name {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: var(--muted);
+}
+
+.product-name {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--orange);
+    letter-spacing: 0.5px;
+}
+
+/* HERO SECTION DE ALTO IMPACTO */
+.hero {
+    padding: 80px 0 50px;
+    text-align: center;
+}
+
+.hero-inner {
+    max-width: 850px;
+    margin: 0 auto;
+}
+
+.badge {
+    display: inline-block;
+    border: 1px solid rgba(232,93,4,0.4);
+    color: var(--orange);
+    padding: 8px 18px;
+    border-radius: 999px;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+    background: rgba(232,93,4,0.08);
+    font-weight: 800;
+    box-shadow: 0 0 20px rgba(232,93,4,0.15);
+}
+
+h1 {
+    font-size: clamp(34px, 6vw, 56px);
+    line-height: 1.08;
+    letter-spacing: -1.5px;
+    margin: 0 0 28px;
+    font-weight: 900;
+}
+
+h1 span {
+    color: var(--orange);
+    text-shadow: 0 0 30px rgba(232,93,4,0.3);
+}
+
+.hero-sub {
+    max-width: 700px;
+    margin: 0 auto 40px;
+    color: var(--muted);
+    font-size: clamp(16px, 1.8vw, 19px);
+    line-height: 1.7;
+}
+
+/* ZONA DE PAGO / FLOW */
+.pricing-section {
+    padding: 30px 0 80px;
+}
+
+.pricing-card {
+    background: linear-gradient(145deg, rgba(21,19,16,0.95), rgba(12,11,10,0.98));
+    border: 2px solid rgba(232, 93, 4, 0.45);
+    border-radius: 24px;
+    padding: 50px 35px;
+    text-align: center;
+    max-width: 650px;
+    margin: 0 auto;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.5), 0 0 45px rgba(232,93,4,0.15);
+    position: relative;
+}
+
+.pricing-card::before {
+    content: "ACCESO INMEDIATO VITALICIO";
+    position: absolute;
+    top: -14px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--orange);
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 900;
+    padding: 6px 18px;
+    border-radius: 20px;
+    letter-spacing: 1.2px;
+    box-shadow: 0 4px 12px rgba(232,93,4,0.4);
+}
+
+.price-old {
+    text-decoration: line-through;
+    color: var(--muted);
+    font-size: 1.2rem;
+    margin-bottom: 6px;
+    font-weight: 600;
+}
+
+.price-current {
+    font-size: 3.4rem;
+    font-weight: 900;
+    color: var(--orange);
+    margin: 5px 0 15px 0;
+    letter-spacing: -1px;
+}
+
+.btn-flow {
+    display: block;
+    width: 100%;
+    background: var(--orange);
+    color: white;
+    text-decoration: none;
+    font-size: 1.25rem;
+    font-weight: 900;
+    padding: 20px;
+    border-radius: 14px;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 10px 30px rgba(232, 93, 4, 0.35);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+}
+
+.btn-flow:hover {
+    background: var(--orange2);
+    transform: translateY(-3px);
+    box-shadow: 0 18px 35px rgba(232, 93, 4, 0.5);
+}
+
+.btn-diagnostic {
+    display: inline-block;
+    margin-top: 20px;
+    color: var(--muted);
+    font-size: 14px;
+    text-decoration: underline;
+    transition: color 0.2s;
+}
+
+.btn-diagnostic:hover {
+    color: var(--cream);
+}
+
+/* SECCIÓN PASOS */
+.section {
+    padding: 60px 0;
+}
+
+.section-title {
+    text-align: center;
+    max-width: 720px;
+    margin: 0 auto 40px;
+}
+
+.section-title h2 {
+    font-size: clamp(26px, 4vw, 36px);
+    letter-spacing: -1px;
+    margin-bottom: 12px;
+    font-weight: 800;
+}
+
+.section-title p {
+    color: var(--muted);
+    line-height: 1.6;
+    font-size: 16px;
+}
+
+.steps {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+
+.step {
+    display: flex;
+    gap: 16px;
+    padding: 20px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    transition: border-color 0.2s;
+}
+
+.step:hover {
+    border-color: rgba(232,93,4,0.4);
+}
+
+.step-number {
+    color: var(--orange);
+    font-size: 14px;
+    font-weight: 900;
+    min-width: 26px;
+}
+
+.step strong {
+    display: block;
+    margin-bottom: 4px;
+    color: #fff;
+    font-size: 15px;
+}
+
+.step div:last-child {
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.step.highlight {
+    border-color: rgba(232,93,4,0.5);
+    background: linear-gradient(145deg, rgba(232,93,4,0.1), var(--card));
+}
+
+footer {
+    padding: 45px 0;
+    border-top: 1px solid var(--line);
+    text-align: center;
+    color: #666;
+    font-size: 13px;
+}
+
+@media (max-width: 800px) {
+    .steps { grid-template-columns: 1fr; }
+}
+</style>
 </head>
 <body>
 
-    <header>
-        <div class="hero-badge">⚡ Sistema de Alta Conversión</div>
-        <h1>Monetiza con IA en Piloto Automático: <span>Cash Machine 2.0</span></h1>
-        <p class="subtitle">Deja atrás los métodos tradicionales. Implementa una arquitectura validada impulsada por Inteligencia Artificial para generar flujos constantes sin fricción.</p>
-    </header>
+<!-- INTRO BLINDADA (CON CIERRE AUTOMÁTICO INQUEBRABLE) -->
+<div id="intro">
+  <div class="intro-content">
+    <img src="creativeminds-logo.png" alt="Creative Minds" class="intro-logo">
+    <div class="intro-text">CREATIVE MINDS</div>
+    <div class="intro-sub">Cash Machine 2.0</div>
+  </div>
+</div>
 
-    <div class="main-container">
-        <div class="pricing-card">
-            <div class="price-old">$49,990 CLP</div>
-            <div class="price-current">$9,990 CLP</div>
-            <p style="color: var(--muted); margin-bottom: 30px;">Acceso vitalicio al sistema completo + actualizaciones de OpenRouter.</p>
-            
-            <a href="https://www.flow.cl/btn.php?token=hf76b9e05d9000324c82c543bfe6255fec346f12" target="_blank" class="btn-flow">Obtener Acceso Inmediato 🚀</a>
-            
-            <p style="font-size: 0.8rem; color: var(--muted); margin-top: 20px;">🔒 Pago 100% seguro procesado por Flow (Tarjetas / Redcompra)</p>
-        </div>
+<!-- MAIN CONTENT -->
+<div id="main-content">
 
-        <div class="features-grid">
-            <div class="feature-box">
-                <h3>🎯 Psicología de Conversión</h3>
-                <p>Estructura persuasiva basada en retención, autoridad y eliminación total de objeciones para maximizar tus ventas.</p>
-            </div>
-            <div class="feature-box">
-                <h3>🧠 Motor OpenRouter Avanzado</h3>
-                <p>Conecta los modelos de lenguaje más potentes del mundo directamente a tu plataforma con respuestas en tiempo real.</p>
-            </div>
-            <div class="feature-box">
-                <h3>⚙️ Despliegue Automatizado</h3>
-                <p>Todo optimizado para correr de forma ultra ligera y rápida en la nube con sincronización instantánea vía Git.</p>
-            </div>
+<header class="top-bar">
+  <div class="container top-bar-inner">
+    <div class="brand-left">
+      <img src="creativeminds-logo.png" alt="Creative Minds" class="brand-logo">
+      <span class="brand-name">Creative Minds</span>
+    </div>
+    <div class="product-name">Cash Machine 2.0</div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container hero-inner">
+    <div class="badge">Filtro de Realidad Impulsado por IA</div>
+    <h1>
+      La mayoría de las ideas<br>
+      deberían <span>morir.</span><br>
+      Te ayudamos a matarlas a tiempo.
+    </h1>
+    <p class="hero-sub">
+      Cash Machine no te llena de opciones genéricas. Analiza tu situación real — tiempo, presupuesto, habilidades y límites — para entregarte una sola ruta ejecutable.
+    </p>
+  </div>
+</section>
+
+<!-- ZONA DE PAGO FLOW -->
+<section class="pricing-section">
+  <div class="container">
+    <div class="pricing-card">
+        <div class="price-old">$49,990 CLP</div>
+        <div class="price-current">$9,990 CLP</div>
+        <p style="color: var(--muted); margin-bottom: 25px; font-size: 15px;">Acceso vitalicio al sistema completo + actualizaciones de OpenRouter.</p>
+        
+        <!-- Botón de Flow Oficial -->
+        <a href="https://www.flow.cl/btn.php?token=hf76b9e05d9000324c82c543bfe6255fec346f12" target="_blank" class="btn-flow">Obtener Acceso Inmediato 🚀</a>
+        
+        <p style="font-size: 0.85rem; color: var(--muted); margin-top: 20px;">🔒 Pago 100% seguro procesado por Flow (Tarjetas / Redcompra)</p>
+        
+        <div>
+            <a href="acceso.html" class="btn-diagnostic">¿Ya tienes tu código de acceso? Inicia tu diagnóstico aquí →</a>
         </div>
     </div>
+  </div>
+</section>
 
-    <footer>
-        <p>&copy; 2026 Cash Machine 2.0. Todos los derechos reservados.</p>
-    </footer>
+<!-- METODOLOGÍA / PASOS -->
+<section class="section">
+  <div class="container">
+    <div class="section-title">
+      <h2>Cash Machine empieza por conocerte de verdad.</h2>
+      <p>Antes de construir cualquier estrategia, el sistema procesa tus activos y restricciones reales.</p>
+    </div>
+
+    <div class="steps">
+      <div class="step"><div class="step-number">01</div><div><strong>Objetivo</strong>Qué quieres conseguir realmente.</div></div>
+      <div class="step"><div class="step-number">02</div><div><strong>Punto de partida</strong>Qué tienes hoy, aunque sea poco.</div></div>
+      <div class="step"><div class="step-number">03</div><div><strong>Recursos</strong>Tiempo, presupuesto y nivel técnico reales.</div></div>
+      <div class="step"><div class="step-number">04</div><div><strong>Mercado y cliente</strong>A quién quieres ayudar.</div></div>
+      <div class="step"><div class="step-number">05</div><div><strong>Oferta y monetización</strong>Cómo imaginas que puede entrar dinero.</div></div>
+      <div class="step"><div class="step-number">06</div><div><strong>Canales</strong>Qué canales puedes sostener.</div></div>
+      <div class="step highlight"><div class="step-number">07</div><div><strong>Filtro de realidad</strong>Historial, capital de riesgo y nivel de exposición.</div></div>
+      <div class="step"><div class="step-number">08</div><div><strong>Estilo y prioridad</strong>Cómo quieres que trabaje la IA.</div></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    Creative Minds · Cash Machine 2.0 · Todos los derechos reservados.
+  </div>
+</footer>
+
+</div>
+
+<script>
+// Lógica de intro blindada: se oculta por temporizador Y tiene un respaldo de doble clic por seguridad total
+window.addEventListener("load", () => {
+  const intro = document.getElementById("intro");
+  
+  const hideIntro = () => {
+    if (intro && !intro.classList.contains("hide")) {
+      intro.classList.add("hide");
+    }
+  };
+
+  // Temporizador principal (2.2 segundos)
+  setTimeout(hideIntro, 2200);
+
+  // Respaldo por si acaso: si el usuario hace clic en la pantalla de intro, entra al instante
+  if (intro) {
+    intro.addEventListener("click", hideIntro);
+  }
+});
+</script>
 
 </body>
 </html>
