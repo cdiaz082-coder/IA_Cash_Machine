@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { randomBytes } from 'node:crypto';
 import { readFileSync } from 'node:fs';
-import { handler } from '../netlify/functions/cash-machine.mjs';
+import cashMachine, { handler } from '../netlify/functions/cash-machine.mjs';
 
 const code = 'random-access-code-for-tests-987654';
 const key = 'sk-or-only-mock-no-live-calls';
@@ -89,4 +89,17 @@ test('HTML sin secretos y con interfaz autenticada',()=>{
   assert.match(html,/cashApi\("diagnose"/);
   assert.doesNotMatch(html,/(?:CASHVIP2026|sk-or-v1-|const API_KEY|const PASSWORD|atob\(|openrouter\.ai\/api\/v1)/);
   assert.match(html,/construirContexto\(\)/);
+});
+
+
+test('Netlify modern Request/Response handles secure login',async()=>{
+ const req=new Request('https://cashmachine20.netlify.app/.netlify/functions/cash-machine',{
+   method:'POST',
+   headers:{origin:'https://cashmachine20.netlify.app','Content-Type':'application/json'},
+   body:JSON.stringify({action:'login',code}),
+ });
+ const res=await cashMachine(req);
+ assert.equal(res.status,200);
+ assert.equal((await res.json()).ok,true);
+ assert.match(res.headers.get('set-cookie'),/HttpOnly/);
 });
