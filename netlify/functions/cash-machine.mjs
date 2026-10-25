@@ -136,3 +136,18 @@ export async function handler(event) {
     return fail(503, 'PROVIDER_TIMEOUT', 'Diagnóstico no disponible temporalmente.');
   } finally { clearTimeout(timeout); }
 }
+
+
+// Modern Netlify Functions entrypoint: web Request -> web Response.
+// The internal handler is kept separately for focused contract tests.
+export default async function cashMachine(request) {
+  const headers = Object.fromEntries(request.headers.entries());
+  headers.host = new URL(request.url).host;
+  const rawBody = request.method === 'POST' ? await request.text() : '';
+  const result = await handler({
+    httpMethod: request.method,
+    headers,
+    body: rawBody,
+  });
+  return new Response(result.body, {status: result.statusCode, headers: result.headers});
+}
