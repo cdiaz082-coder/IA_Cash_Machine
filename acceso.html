@@ -436,7 +436,18 @@ qué puedes arriesgar y qué estás dispuesto a hacer.
 
 </header>
 
-<div id="app">
+<div id="login" class="lock card">
+    <div class="step-kicker">Acceso privado</div>
+    <h1>Cash Machine</h1>
+    <p class="subtitle">Ingresa tu código de acceso para comenzar el diagnóstico.</p>
+    <form id="cashAccessForm" autocomplete="off">
+      <label for="cashAccessCode">Código de acceso</label>
+      <input id="cashAccessCode" type="password" autocomplete="off" required minlength="18" aria-describedby="cashAccessStatus">
+      <div class="nav"><button class="btn-primary" type="submit" id="cashAccessButton">Entrar →</button></div>
+    </form>
+    <div id="cashAccessStatus" class="status" role="status" aria-live="polite"></div>
+  </div>
+  <div id="app" style="display:none">
 
 <div class="progress-wrap">
 
@@ -1092,7 +1103,55 @@ Cash Machine 2.0 · IA & Estrategia
 
 <script>
 
-/* Configuración segura: ninguna credencial se almacena en el navegador. */
+/* Configuración segura: claves y códigos de acceso permanecen en el servidor. */
+const CASH_API_ENDPOINT = "/.netlify/functions/cash-machine";
+async function cashApi(action, data, timeoutMs = 30000) {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    const response = await fetch(CASH_API_ENDPOINT, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "same-origin",
+      signal: controller.signal,
+      body: JSON.stringify({ action, ...data })
+    });
+    const result = await response.json().catch(() => ({}));
+    return { status: response.status, ...result };
+  } finally {
+    clearTimeout(timeout);
+  }
+}
+function mostrarAcceso(mensaje = "") {
+  document.getElementById("login").style.display = "block";
+  document.getElementById("app").style.display = "none";
+  document.getElementById("cashAccessStatus").textContent = mensaje;
+}
+async function entrar(event) {
+  if (event) event.preventDefault();
+  const button = document.getElementById("cashAccessButton");
+  const field = document.getElementById("cashAccessCode");
+  const status = document.getElementById("cashAccessStatus");
+  button.disabled = true;
+  status.textContent = "Validando acceso...";
+  try {
+    const result = await cashApi("login", {code: field.value}, 10000);
+    field.value = "";
+    if (result.ok) {
+      document.getElementById("login").style.display = "none";
+      document.getElementById("app").style.display = "block";
+      cargarDatos();
+      actualizarInterfaz();
+    } else {
+      status.textContent = result.message || "No fue posible validar el acceso.";
+    }
+  } catch {
+    status.textContent = "No se pudo conectar al servicio. Intenta nuevamente.";
+  } finally {
+    button.disabled = false;
+  }
+}
+document.getElementById("cashAccessForm").addEventListener("submit", entrar);
 
 /* ==========================================================
    ESTADO
@@ -1615,16 +1674,34 @@ ${JSON.stringify(contexto,null,2)}
    ========================================================== */
 
 async function generarEstrategia(){
-    // La antigua clave pública fue retirada. No efectuar peticiones
-    // directas a proveedores desde el navegador.
-    guardarDatos();
-    const result = document.getElementById("result");
-    const resultContent = document.getElementById("resultContent");
-    const status = document.getElementById("status");
-    status.textContent = "Análisis IA temporalmente no disponible.";
-    resultContent.textContent = "Puedes completar y revisar tu diagnóstico. La generación automática de estrategia está temporalmente suspendida mientras se habilita una conexión segura. No se realizará ningún cobro ni consumo de IA.";
+  const button = document.getElementById("generateBtn");
+  const status = document.getElementById("status");
+  const result = document.getElementById("result");
+  const content = document.getElementById("resultContent");
+  button.disabled = true;
+  result.classList.remove("active");
+  status.textContent = "Analizando tu diagnóstico...";
+  const contexto = construirContexto();
+  guardarDatos();
+  try {
+    const reply = await cashApi("diagnose", {contexto}, 30000);
+    if (reply.ok && typeof reply.answer === "string" && reply.answer.trim()) {
+      content.textContent = reply.answer;
+      status.textContent = "Estrategia generada.";
+    } else {
+      content.textContent = reply.message || "El diagnóstico de IA está temporalmente no disponible.";
+      status.textContent = "No se pudo generar la estrategia.";
+      if (reply.status === 401) {
+        mostrarAcceso("La sesión expiró. Ingresa tu código nuevamente.");
+      }
+    }
+  } catch {
+    content.textContent = "No se pudo conectar al servicio de diagnóstico. Intenta nuevamente.";
+    status.textContent = "Error de conexión.";
+  } finally {
     result.classList.add("active");
-    document.getElementById("generateBtn").disabled = false;
+    button.disabled = false;
+  }
 }
 
 </script>
