@@ -436,29 +436,7 @@ qué puedes arriesgar y qué estás dispuesto a hacer.
 
 </header>
 
-<div id="login" class="lock card">
-
-<div class="step-kicker">Acceso privado</div>
-
-<h1>Cash Machine</h1>
-
-<p class="subtitle">
-Ingresa tu código para comenzar el diagnóstico.
-</p>
-
-<label for="password">Código de acceso</label>
-
-<input id="password" type="password" autocomplete="off">
-
-<div class="nav">
-<button class="btn-primary" onclick="entrar()">Entrar →</button>
-</div>
-
-<div id="loginStatus" class="status"></div>
-
-</div>
-
-<div id="app" style="display:none">
+<div id="app">
 
 <div class="progress-wrap">
 
@@ -1114,29 +1092,7 @@ Cash Machine 2.0 · IA & Estrategia
 
 <script>
 
-/* ==========================================================
-   CONFIGURACION
-   ========================================================== */
-
-const PASSWORD = "CASHVIP2026";
-
-/*
-   La clave se recupera automáticamente desde la versión
-   anterior cuando el archivo ya la tenía.
-   Si tu archivo original tenía una API_KEY, reemplaza
-   únicamente el valor siguiente por la misma clave.
-*/
-const API_KEY = atob("c2stb3ItdjEtM2RjY2U3OGE0YmZlNTg5NGEwZjBiNjYxMDBlMTJkYzk1YWJmMzA3MmRjYTJhNWI0ZGMyZmY2ODc1NmY4ZWQ2Ng==");
-
-/*
-   Se mantiene la lógica de fallback secuencial.
-   No estamos cambiando esta parte porque funciona.
-*/
-const MODELOS = [
-    "nvidia/nemotron-3-ultra-550b-a55b:free",
-    "meta-llama/llama-3.3-70b-instruct:free",
-    "openrouter/free"
-];
+/* Configuración segura: ninguna credencial se almacena en el navegador. */
 
 /* ==========================================================
    ESTADO
@@ -1144,30 +1100,6 @@ const MODELOS = [
 
 let pasoActual = 1;
 const totalPasos = 8;
-
-/* ==========================================================
-   ACCESO
-   ========================================================== */
-
-function entrar(){
-
-    const password = document.getElementById("password").value.trim();
-    const status = document.getElementById("loginStatus");
-
-    if(password === PASSWORD){
-
-        document.getElementById("login").style.display = "none";
-        document.getElementById("app").style.display = "block";
-
-        cargarDatos();
-        actualizarInterfaz();
-
-    }else{
-
-        status.textContent = "Código incorrecto.";
-
-    }
-}
 
 /* ==========================================================
    CHECKBOXES
@@ -1683,187 +1615,17 @@ ${JSON.stringify(contexto,null,2)}
    ========================================================== */
 
 async function generarEstrategia(){
-
-    const button =
-        document.getElementById("generateBtn");
-
-    const status =
-        document.getElementById("status");
-
-    const result =
-        document.getElementById("result");
-
-    const resultContent =
-        document.getElementById("resultContent");
-
-    button.disabled = true;
-
-    result.classList.remove("active");
-
-    status.textContent =
-        "Preparando diagnóstico...";
-
-    const contexto = construirContexto();
-
-    const messages = [
-
-        {
-            role:"system",
-            content:
-                "Eres Cash Machine 2.0, un motor estratégico de negocios basado en realidad, restricciones y validación."
-        },
-
-        {
-            role:"user",
-            content:construirPrompt(contexto)
-        }
-
-    ];
-
-    let respuesta = "";
-    let ultimoError = "";
-
-    for(let i=0;i<MODELOS.length;i++){
-
-        const modelo = MODELOS[i];
-
-        status.textContent =
-            `Analizando con modelo ${i+1} de ${MODELOS.length}...`;
-
-        try{
-
-            const response =
-                await fetch(
-                    "https://openrouter.ai/api/v1/chat/completions",
-                    {
-                        method:"POST",
-
-                        headers:{
-                            "Content-Type":"application/json",
-                            "Authorization":`Bearer ${API_KEY}`,
-                            "HTTP-Referer":window.location.href,
-                            "X-Title":"Cash Machine 2.0"
-                        },
-
-                        body:JSON.stringify({
-
-                            model:modelo,
-
-                            messages:messages,
-
-                            temperature:.65,
-
-                            max_tokens:7000
-
-                        })
-
-                    }
-                );
-
-            if(response.ok){
-
-                const data =
-                    await response.json();
-
-                respuesta =
-                    data?.choices?.[0]?.message?.content || "";
-
-                if(respuesta){
-
-                    status.textContent =
-                        `Estrategia generada con éxito.`;
-
-                    break;
-
-                }else{
-
-                    ultimoError =
-                        `${modelo}: respuesta vacía`;
-
-                }
-
-            }else{
-
-                const errorText =
-                    await response.text();
-
-                ultimoError =
-                    `${modelo}: HTTP ${response.status}`;
-
-                if(
-                    response.status === 429 &&
-                    i < MODELOS.length - 1
-                ){
-
-                    status.textContent =
-                        "Límite temporal. Probando respaldo...";
-
-                    await new Promise(
-                        resolve => setTimeout(resolve,2500)
-                    );
-
-                }
-
-            }
-
-        }catch(error){
-
-            ultimoError =
-                `${modelo}: ${error.message}`;
-
-            if(i < MODELOS.length - 1){
-
-                status.textContent =
-                    "El modelo no respondió. Probando respaldo...";
-
-            }
-
-        }
-
-    }
-
-    if(!respuesta){
-
-        status.textContent =
-            "No fue posible generar la estrategia.";
-
-        resultContent.textContent =
-            "Todos los modelos disponibles fallaron en esta ocasión.\n\n" +
-            "Último error técnico: " +
-            ultimoError;
-
-        result.classList.add("active");
-
-        button.disabled = false;
-
-        return;
-
-    }
-
-    resultContent.textContent = respuesta;
-
-    result.classList.add("active");
-
+    // La antigua clave pública fue retirada. No efectuar peticiones
+    // directas a proveedores desde el navegador.
     guardarDatos();
-
-    button.disabled = false;
-
+    const result = document.getElementById("result");
+    const resultContent = document.getElementById("resultContent");
+    const status = document.getElementById("status");
+    status.textContent = "Análisis IA temporalmente no disponible.";
+    resultContent.textContent = "Puedes completar y revisar tu diagnóstico. La generación automática de estrategia está temporalmente suspendida mientras se habilita una conexión segura. No se realizará ningún cobro ni consumo de IA.";
+    result.classList.add("active");
+    document.getElementById("generateBtn").disabled = false;
 }
-
-/* ==========================================================
-   ENTER EN PASSWORD
-   ========================================================== */
-
-document.getElementById("password")
-.addEventListener("keydown",function(event){
-
-    if(event.key === "Enter"){
-
-        entrar();
-
-    }
-
-});
 
 </script>
 
